@@ -51,7 +51,7 @@ public class Signin extends javax.swing.JFrame {
 
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
 
-        userName.setBackground(new java.awt.Color(204, 255, 204));
+        userName.setBackground(new java.awt.Color(105, 240, 174));
         userName.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
         userName.setForeground(new java.awt.Color(0, 51, 0));
         userName.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 102, 0), 2, true));
@@ -61,7 +61,7 @@ public class Signin extends javax.swing.JFrame {
             }
         });
 
-        password.setBackground(new java.awt.Color(204, 255, 204));
+        password.setBackground(new java.awt.Color(105, 240, 174));
         password.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
         password.setForeground(new java.awt.Color(0, 51, 0));
         password.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 102, 0), 2, true));
@@ -71,7 +71,7 @@ public class Signin extends javax.swing.JFrame {
             }
         });
 
-        jButton1.setBackground(new java.awt.Color(102, 255, 102));
+        jButton1.setBackground(new java.awt.Color(0, 200, 83));
         jButton1.setFont(new java.awt.Font("SansSerif", 1, 20)); // NOI18N
         jButton1.setText("Sign In");
         jButton1.setBorder(javax.swing.BorderFactory.createCompoundBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 102, 0), 1, true), new javax.swing.border.LineBorder(new java.awt.Color(0, 102, 0), 1, true)));
