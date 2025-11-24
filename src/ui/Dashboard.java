@@ -1,11 +1,13 @@
 package ui;
 
+import com.formdev.flatlaf.FlatIntelliJLaf;
 import com.formdev.flatlaf.themes.FlatMacDarkLaf;
 import com.formdev.flatlaf.themes.FlatMacLightLaf;
 import java.awt.BorderLayout;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 import ui.panel.CustomerAccounts;
+import ui.panel.SupplierAccounts;
 import util.JpanelLoader;
 
 public class Dashboard extends javax.swing.JFrame {
@@ -22,41 +24,45 @@ public class Dashboard extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        home_btn_grp = new javax.swing.ButtonGroup();
         jPanel1 = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jPanel6 = new javax.swing.JPanel();
-        jPanel5 = new javax.swing.JPanel();
-        jToggleButton17 = new javax.swing.JToggleButton();
-        jToggleButton18 = new javax.swing.JToggleButton();
-        jToggleButton19 = new javax.swing.JToggleButton();
-        jToggleButton20 = new javax.swing.JToggleButton();
-        jToggleButton21 = new javax.swing.JToggleButton();
-        jToggleButton22 = new javax.swing.JToggleButton();
-        jToggleButton23 = new javax.swing.JToggleButton();
-        jToggleButton24 = new javax.swing.JToggleButton();
+        jPanel2 = new javax.swing.JPanel();
+        jToggleButton1 = new javax.swing.JToggleButton();
+        jToggleButton2 = new javax.swing.JToggleButton();
+        jToggleButton3 = new javax.swing.JToggleButton();
+        jToggleButton4 = new javax.swing.JToggleButton();
+        jToggleButton5 = new javax.swing.JToggleButton();
+        jToggleButton6 = new javax.swing.JToggleButton();
+        jToggleButton7 = new javax.swing.JToggleButton();
+        jToggleButton8 = new javax.swing.JToggleButton();
         mainPanel = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setBackground(new java.awt.Color(18, 50, 73));
 
-        jPanel1.setBackground(new java.awt.Color(255, 252, 239));
+        jPanel1.setBackground(new java.awt.Color(251, 248, 251));
 
-        jPanel3.setBackground(new java.awt.Color(255, 252, 239));
-        jPanel3.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        jPanel3.setBackground(new java.awt.Color(251, 248, 251));
+        jPanel3.setBorder(javax.swing.BorderFactory.createEtchedBorder(new java.awt.Color(35, 104, 153), new java.awt.Color(4, 41, 86)));
 
         jLabel1.setBackground(new java.awt.Color(248, 249, 250));
         jLabel1.setFont(new java.awt.Font("SchulbuchNord", 1, 30)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(6, 18, 34));
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resourse/online-shopping.png"))); // NOI18N
         jLabel1.setText("  DMD Traders  ");
+        jLabel1.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(35, 104, 153), 2, true));
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+            .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 1252, Short.MAX_VALUE)
+                .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 1359, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanel3Layout.setVerticalGroup(
@@ -67,113 +73,99 @@ public class Dashboard extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jPanel6.setBackground(new java.awt.Color(248, 249, 250));
+        jPanel6.setBackground(new java.awt.Color(4, 41, 86));
 
-        jPanel5.setBackground(new java.awt.Color(92, 137, 157));
-        jPanel5.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        jPanel2.setBackground(new java.awt.Color(35, 104, 153));
+        jPanel2.setBorder(javax.swing.BorderFactory.createEtchedBorder(javax.swing.border.EtchedBorder.RAISED));
 
-        jToggleButton17.setBackground(new java.awt.Color(255, 252, 239));
-        jToggleButton17.setFont(new java.awt.Font("Nirmala UI", 1, 18)); // NOI18N
-        jToggleButton17.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resourse/customer (2).png"))); // NOI18N
-        jToggleButton17.setText(" Customers ");
-        jToggleButton17.addActionListener(new java.awt.event.ActionListener() {
+        home_btn_grp.add(jToggleButton1);
+        jToggleButton1.setFont(new java.awt.Font("Poppins", 1, 18)); // NOI18N
+        jToggleButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resourse/customer (2).png"))); // NOI18N
+        jToggleButton1.setText("Customers");
+        jToggleButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jToggleButton17ActionPerformed(evt);
+                jToggleButton1ActionPerformed(evt);
             }
         });
 
-        jToggleButton18.setBackground(new java.awt.Color(255, 252, 239));
-        jToggleButton18.setFont(new java.awt.Font("Nirmala UI", 1, 18)); // NOI18N
-        jToggleButton18.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resourse/cusuo.png"))); // NOI18N
-        jToggleButton18.setText("  Supplier  ");
-        jToggleButton18.addActionListener(new java.awt.event.ActionListener() {
+        home_btn_grp.add(jToggleButton2);
+        jToggleButton2.setFont(new java.awt.Font("Poppins", 1, 18)); // NOI18N
+        jToggleButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resourse/cusuo.png"))); // NOI18N
+        jToggleButton2.setText("  Suppliers ");
+        jToggleButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jToggleButton18ActionPerformed(evt);
+                jToggleButton2ActionPerformed(evt);
             }
         });
 
-        jToggleButton19.setBackground(new java.awt.Color(255, 252, 239));
-        jToggleButton19.setFont(new java.awt.Font("Nirmala UI", 1, 18)); // NOI18N
-        jToggleButton19.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resourse/product.png"))); // NOI18N
-        jToggleButton19.setText("  Products  ");
-        jToggleButton19.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jToggleButton19ActionPerformed(evt);
-            }
-        });
+        home_btn_grp.add(jToggleButton3);
+        jToggleButton3.setFont(new java.awt.Font("Poppins", 1, 18)); // NOI18N
+        jToggleButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resourse/product.png"))); // NOI18N
+        jToggleButton3.setText("  Products  ");
 
-        jToggleButton20.setBackground(new java.awt.Color(255, 252, 239));
-        jToggleButton20.setFont(new java.awt.Font("Nirmala UI", 1, 18)); // NOI18N
-        jToggleButton20.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resourse/business-growth.png"))); // NOI18N
-        jToggleButton20.setText("   Sales  ");
-        jToggleButton20.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jToggleButton20ActionPerformed(evt);
-            }
-        });
+        home_btn_grp.add(jToggleButton4);
+        jToggleButton4.setFont(new java.awt.Font("Poppins", 1, 18)); // NOI18N
+        jToggleButton4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resourse/Package Receive2.png"))); // NOI18N
+        jToggleButton4.setText("  GRN  ");
 
-        jToggleButton21.setBackground(new java.awt.Color(255, 252, 239));
-        jToggleButton21.setFont(new java.awt.Font("Nirmala UI", 1, 18)); // NOI18N
-        jToggleButton21.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resourse/sales-discount.png"))); // NOI18N
-        jToggleButton21.setText("  GRN  ");
+        home_btn_grp.add(jToggleButton5);
+        jToggleButton5.setFont(new java.awt.Font("Poppins", 1, 18)); // NOI18N
+        jToggleButton5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resourse/business-growth.png"))); // NOI18N
+        jToggleButton5.setText("  Sales  ");
 
-        jToggleButton22.setBackground(new java.awt.Color(255, 252, 239));
-        jToggleButton22.setFont(new java.awt.Font("Nirmala UI", 1, 18)); // NOI18N
-        jToggleButton22.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resourse/business-presentation.png"))); // NOI18N
-        jToggleButton22.setText(" Inventory");
-        jToggleButton22.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jToggleButton22ActionPerformed(evt);
-            }
-        });
+        home_btn_grp.add(jToggleButton6);
+        jToggleButton6.setFont(new java.awt.Font("Poppins", 1, 18)); // NOI18N
+        jToggleButton6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resourse/business-presentation.png"))); // NOI18N
+        jToggleButton6.setText(" Inventory");
 
-        jToggleButton23.setBackground(new java.awt.Color(255, 252, 239));
-        jToggleButton23.setFont(new java.awt.Font("Nirmala UI", 1, 18)); // NOI18N
-        jToggleButton23.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resourse/sales-clipboard.png"))); // NOI18N
-        jToggleButton23.setText("  Reports  ");
+        home_btn_grp.add(jToggleButton7);
+        jToggleButton7.setFont(new java.awt.Font("Poppins", 1, 18)); // NOI18N
+        jToggleButton7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resourse/sales-clipboard.png"))); // NOI18N
+        jToggleButton7.setText("  Reports");
 
-        jToggleButton24.setBackground(new java.awt.Color(255, 252, 239));
-        jToggleButton24.setFont(new java.awt.Font("Nirmala UI", 1, 18)); // NOI18N
-        jToggleButton24.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resourse/setting.png"))); // NOI18N
-        jToggleButton24.setText("Administration");
+        home_btn_grp.add(jToggleButton8);
+        jToggleButton8.setFont(new java.awt.Font("Poppins", 1, 18)); // NOI18N
+        jToggleButton8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resourse/setting.png"))); // NOI18N
+        jToggleButton8.setText("Administration");
 
-        javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
-        jPanel5.setLayout(jPanel5Layout);
-        jPanel5Layout.setHorizontalGroup(
-            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel5Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(jToggleButton23, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jToggleButton22, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jToggleButton21, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jToggleButton20, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jToggleButton19, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jToggleButton18, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jToggleButton17, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jToggleButton24, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(16, 16, 16)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jToggleButton8, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jToggleButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(jToggleButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jToggleButton4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jToggleButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 180, Short.MAX_VALUE)
+                        .addComponent(jToggleButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jToggleButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jToggleButton7, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(16, Short.MAX_VALUE))
         );
-        jPanel5Layout.setVerticalGroup(
-            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel5Layout.createSequentialGroup()
-                .addGap(31, 31, 31)
-                .addComponent(jToggleButton17, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(30, 30, 30)
+                .addComponent(jToggleButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(35, 35, 35)
-                .addComponent(jToggleButton18, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jToggleButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(35, 35, 35)
-                .addComponent(jToggleButton19, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jToggleButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(35, 35, 35)
-                .addComponent(jToggleButton20, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jToggleButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(35, 35, 35)
-                .addComponent(jToggleButton21, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jToggleButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(35, 35, 35)
-                .addComponent(jToggleButton22, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jToggleButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(35, 35, 35)
-                .addComponent(jToggleButton23, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jToggleButton7, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(35, 35, 35)
-                .addComponent(jToggleButton24, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(28, Short.MAX_VALUE))
+                .addComponent(jToggleButton8, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(29, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
@@ -182,18 +174,19 @@ public class Dashboard extends javax.swing.JFrame {
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel6Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel6Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
-        mainPanel.setBackground(new java.awt.Color(255, 252, 239));
+        mainPanel.setBackground(new java.awt.Color(251, 248, 251));
+        mainPanel.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(4, 41, 86), 1, true));
 
         javax.swing.GroupLayout mainPanelLayout = new javax.swing.GroupLayout(mainPanel);
         mainPanel.setLayout(mainPanelLayout);
@@ -226,10 +219,10 @@ public class Dashboard extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(mainPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -246,34 +239,23 @@ public class Dashboard extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jToggleButton19ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton19ActionPerformed
+    private void jToggleButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton1ActionPerformed
+        CustomerAccounts cusAcc = new CustomerAccounts();
+        jpload.jPanelLoader(mainPanel, cusAcc);
+    }//GEN-LAST:event_jToggleButton1ActionPerformed
 
-    }//GEN-LAST:event_jToggleButton19ActionPerformed
-
-    private void jToggleButton20ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton20ActionPerformed
-
-    }//GEN-LAST:event_jToggleButton20ActionPerformed
-
-    private void jToggleButton22ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton22ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jToggleButton22ActionPerformed
-
-    private void jToggleButton18ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton18ActionPerformed
-
-    }//GEN-LAST:event_jToggleButton18ActionPerformed
-
-    private void jToggleButton17ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton17ActionPerformed
-        CustomerAccounts cAcc = new CustomerAccounts();
-        jpload.jPanelLoader(mainPanel, cAcc);
-    }//GEN-LAST:event_jToggleButton17ActionPerformed
+    private void jToggleButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton2ActionPerformed
+        SupplierAccounts supAcc = new SupplierAccounts();
+        jpload.jPanelLoader(mainPanel, supAcc);
+    }//GEN-LAST:event_jToggleButton2ActionPerformed
 
     /**
      * @param args the command line arguments
      */
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
+//        FlatIntelliJLaf.setup();
         FlatMacLightLaf.setup();
-
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             @Override
@@ -284,19 +266,20 @@ public class Dashboard extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.ButtonGroup home_btn_grp;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
-    private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
-    private javax.swing.JToggleButton jToggleButton17;
-    private javax.swing.JToggleButton jToggleButton18;
-    private javax.swing.JToggleButton jToggleButton19;
-    private javax.swing.JToggleButton jToggleButton20;
-    private javax.swing.JToggleButton jToggleButton21;
-    private javax.swing.JToggleButton jToggleButton22;
-    private javax.swing.JToggleButton jToggleButton23;
-    private javax.swing.JToggleButton jToggleButton24;
+    private javax.swing.JToggleButton jToggleButton1;
+    private javax.swing.JToggleButton jToggleButton2;
+    private javax.swing.JToggleButton jToggleButton3;
+    private javax.swing.JToggleButton jToggleButton4;
+    private javax.swing.JToggleButton jToggleButton5;
+    private javax.swing.JToggleButton jToggleButton6;
+    private javax.swing.JToggleButton jToggleButton7;
+    private javax.swing.JToggleButton jToggleButton8;
     private javax.swing.JPanel mainPanel;
     // End of variables declaration//GEN-END:variables
 
