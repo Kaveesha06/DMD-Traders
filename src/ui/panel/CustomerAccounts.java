@@ -49,7 +49,7 @@ public class CustomerAccounts extends javax.swing.JPanel {
 
         jPanel1.setBackground(new java.awt.Color(248, 249, 250));
 
-        jLabel1.setFont(new java.awt.Font("Nirmala UI", 1, 18)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("Nirmala UI", 1, 20)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(15, 76, 129));
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("Customer Accounts");

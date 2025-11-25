@@ -48,6 +48,10 @@ public class SupplierAccounts extends javax.swing.JPanel {
         jTable1 = new javax.swing.JTable();
         jButton4 = new javax.swing.JButton();
 
+        setBackground(new java.awt.Color(248, 249, 250));
+
+        jPanel1.setBackground(new java.awt.Color(248, 249, 250));
+
         jLabel1.setFont(new java.awt.Font("Nirmala UI", 1, 18)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(15, 76, 129));
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -140,11 +144,6 @@ public class SupplierAccounts extends javax.swing.JPanel {
 
         jTextField3.setFont(new java.awt.Font("Nirmala UI", 0, 16)); // NOI18N
 
-        jList1.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public String getElementAt(int i) { return strings[i]; }
-        });
         jScrollPane1.setViewportView(jList1);
 
         jLabel4.setFont(new java.awt.Font("Nirmala UI", 0, 14)); // NOI18N
@@ -170,6 +169,8 @@ public class SupplierAccounts extends javax.swing.JPanel {
         jButton3.setBackground(new java.awt.Color(66, 153, 225));
         jButton3.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
         jButton3.setText("Update");
+
+        jPanel3.setBackground(new java.awt.Color(248, 249, 250));
 
         jTable1.setFont(new java.awt.Font("Nirmala UI", 0, 16)); // NOI18N
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
