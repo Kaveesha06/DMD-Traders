@@ -7,6 +7,8 @@ import java.awt.BorderLayout;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 import ui.panel.CustomerAccounts;
+import ui.panel.GRN;
+import ui.panel.Products;
 import ui.panel.SupplierAccounts;
 import util.JpanelLoader;
 
@@ -62,7 +64,7 @@ public class Dashboard extends javax.swing.JFrame {
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 1359, Short.MAX_VALUE)
+                .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 1460, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanel3Layout.setVerticalGroup(
@@ -102,11 +104,21 @@ public class Dashboard extends javax.swing.JFrame {
         jToggleButton3.setFont(new java.awt.Font("Poppins", 1, 18)); // NOI18N
         jToggleButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resourse/product.png"))); // NOI18N
         jToggleButton3.setText("  Products  ");
+        jToggleButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jToggleButton3ActionPerformed(evt);
+            }
+        });
 
         home_btn_grp.add(jToggleButton4);
         jToggleButton4.setFont(new java.awt.Font("Poppins", 1, 18)); // NOI18N
         jToggleButton4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resourse/Package Receive2.png"))); // NOI18N
         jToggleButton4.setText("  GRN  ");
+        jToggleButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jToggleButton4ActionPerformed(evt);
+            }
+        });
 
         home_btn_grp.add(jToggleButton5);
         jToggleButton5.setFont(new java.awt.Font("Poppins", 1, 18)); // NOI18N
@@ -248,6 +260,16 @@ public class Dashboard extends javax.swing.JFrame {
         SupplierAccounts supAcc = new SupplierAccounts();
         jpload.jPanelLoader(mainPanel, supAcc);
     }//GEN-LAST:event_jToggleButton2ActionPerformed
+
+    private void jToggleButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton3ActionPerformed
+        Products products = new Products();
+        jpload.jPanelLoader(mainPanel, products);
+    }//GEN-LAST:event_jToggleButton3ActionPerformed
+
+    private void jToggleButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton4ActionPerformed
+        GRN grn = new GRN();
+        jpload.jPanelLoader(mainPanel, grn);
+    }//GEN-LAST:event_jToggleButton4ActionPerformed
 
     /**
      * @param args the command line arguments
