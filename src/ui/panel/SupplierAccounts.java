@@ -76,8 +76,10 @@ public class SupplierAccounts extends javax.swing.JPanel {
 
         jPanel2.setBackground(new java.awt.Color(248, 249, 250));
         jPanel2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        jPanel2.setForeground(new java.awt.Color(15, 76, 129));
 
         jCheckBox1.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
+        jCheckBox1.setForeground(new java.awt.Color(15, 76, 129));
         jCheckBox1.setText("Register New Company");
         jCheckBox1.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
@@ -91,6 +93,7 @@ public class SupplierAccounts extends javax.swing.JPanel {
         });
 
         jLabel2.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(15, 76, 129));
         jLabel2.setText("Company Name :");
 
         jTextField1.setFont(new java.awt.Font("Nirmala UI", 0, 16)); // NOI18N
@@ -140,23 +143,28 @@ public class SupplierAccounts extends javax.swing.JPanel {
         );
 
         jLabel3.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
+        jLabel3.setForeground(new java.awt.Color(15, 76, 129));
         jLabel3.setText("Choose Company:");
 
         jTextField3.setFont(new java.awt.Font("Nirmala UI", 0, 16)); // NOI18N
 
+        jList1.setBackground(new java.awt.Color(248, 249, 250));
         jScrollPane1.setViewportView(jList1);
 
         jLabel4.setFont(new java.awt.Font("Nirmala UI", 0, 14)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(51, 51, 51));
+        jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel4.setText("[Select & Enter Name]");
 
         jLabel5.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
+        jLabel5.setForeground(new java.awt.Color(15, 76, 129));
         jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel5.setText("Supplier:");
 
         jTextField4.setFont(new java.awt.Font("Nirmala UI", 0, 16)); // NOI18N
 
         jLabel6.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
+        jLabel6.setForeground(new java.awt.Color(15, 76, 129));
         jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLabel6.setText("Mobile:");
 

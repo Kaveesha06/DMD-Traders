@@ -10,6 +10,7 @@ import ui.panel.CustomerAccounts;
 import ui.panel.GRN;
 import ui.panel.Products;
 import ui.panel.SupplierAccounts;
+import ui.panel.Sales;
 import util.JpanelLoader;
 
 public class Dashboard extends javax.swing.JFrame {
@@ -124,6 +125,11 @@ public class Dashboard extends javax.swing.JFrame {
         jToggleButton5.setFont(new java.awt.Font("Poppins", 1, 18)); // NOI18N
         jToggleButton5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resourse/business-growth.png"))); // NOI18N
         jToggleButton5.setText("  Sales  ");
+        jToggleButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jToggleButton5ActionPerformed(evt);
+            }
+        });
 
         home_btn_grp.add(jToggleButton6);
         jToggleButton6.setFont(new java.awt.Font("Poppins", 1, 18)); // NOI18N
@@ -270,6 +276,11 @@ public class Dashboard extends javax.swing.JFrame {
         GRN grn = new GRN();
         jpload.jPanelLoader(mainPanel, grn);
     }//GEN-LAST:event_jToggleButton4ActionPerformed
+
+    private void jToggleButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton5ActionPerformed
+        Sales psale = new Sales();
+        jpload.jPanelLoader(mainPanel, psale);
+    }//GEN-LAST:event_jToggleButton5ActionPerformed
 
     /**
      * @param args the command line arguments
