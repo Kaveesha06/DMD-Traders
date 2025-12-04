@@ -52,7 +52,7 @@ public class SupplierAccounts extends javax.swing.JPanel {
 
         jPanel1.setBackground(new java.awt.Color(248, 249, 250));
 
-        jLabel1.setFont(new java.awt.Font("Nirmala UI", 1, 18)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("Nirmala UI", 1, 20)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(15, 76, 129));
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("Supplier Accounts");
@@ -75,7 +75,7 @@ public class SupplierAccounts extends javax.swing.JPanel {
         );
 
         jPanel2.setBackground(new java.awt.Color(248, 249, 250));
-        jPanel2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        jPanel2.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(35, 104, 153), 1, true));
         jPanel2.setForeground(new java.awt.Color(15, 76, 129));
 
         jCheckBox1.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N

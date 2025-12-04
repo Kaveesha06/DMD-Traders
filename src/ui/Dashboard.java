@@ -8,7 +8,9 @@ import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 import ui.panel.CustomerAccounts;
 import ui.panel.GRN;
+import ui.panel.Inventory;
 import ui.panel.Products;
+import ui.panel.Reports;
 import ui.panel.SupplierAccounts;
 import ui.panel.Sales;
 import util.JpanelLoader;
@@ -46,9 +48,9 @@ public class Dashboard extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(18, 50, 73));
 
-        jPanel1.setBackground(new java.awt.Color(251, 248, 251));
+        jPanel1.setBackground(new java.awt.Color(248, 249, 250));
 
-        jPanel3.setBackground(new java.awt.Color(251, 248, 251));
+        jPanel3.setBackground(new java.awt.Color(248, 249, 250));
         jPanel3.setBorder(javax.swing.BorderFactory.createEtchedBorder(new java.awt.Color(35, 104, 153), new java.awt.Color(4, 41, 86)));
 
         jLabel1.setBackground(new java.awt.Color(248, 249, 250));
@@ -57,7 +59,7 @@ public class Dashboard extends javax.swing.JFrame {
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resourse/online-shopping.png"))); // NOI18N
         jLabel1.setText("  DMD Traders  ");
-        jLabel1.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(35, 104, 153), 2, true));
+        jLabel1.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -81,6 +83,7 @@ public class Dashboard extends javax.swing.JFrame {
         jPanel2.setBackground(new java.awt.Color(35, 104, 153));
         jPanel2.setBorder(javax.swing.BorderFactory.createEtchedBorder(javax.swing.border.EtchedBorder.RAISED));
 
+        jToggleButton1.setBackground(new java.awt.Color(248, 249, 250));
         home_btn_grp.add(jToggleButton1);
         jToggleButton1.setFont(new java.awt.Font("Poppins", 1, 18)); // NOI18N
         jToggleButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resourse/customer (2).png"))); // NOI18N
@@ -91,6 +94,7 @@ public class Dashboard extends javax.swing.JFrame {
             }
         });
 
+        jToggleButton2.setBackground(new java.awt.Color(248, 249, 250));
         home_btn_grp.add(jToggleButton2);
         jToggleButton2.setFont(new java.awt.Font("Poppins", 1, 18)); // NOI18N
         jToggleButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resourse/cusuo.png"))); // NOI18N
@@ -101,6 +105,7 @@ public class Dashboard extends javax.swing.JFrame {
             }
         });
 
+        jToggleButton3.setBackground(new java.awt.Color(248, 249, 250));
         home_btn_grp.add(jToggleButton3);
         jToggleButton3.setFont(new java.awt.Font("Poppins", 1, 18)); // NOI18N
         jToggleButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resourse/product.png"))); // NOI18N
@@ -111,6 +116,7 @@ public class Dashboard extends javax.swing.JFrame {
             }
         });
 
+        jToggleButton4.setBackground(new java.awt.Color(248, 249, 250));
         home_btn_grp.add(jToggleButton4);
         jToggleButton4.setFont(new java.awt.Font("Poppins", 1, 18)); // NOI18N
         jToggleButton4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resourse/Package Receive2.png"))); // NOI18N
@@ -121,6 +127,7 @@ public class Dashboard extends javax.swing.JFrame {
             }
         });
 
+        jToggleButton5.setBackground(new java.awt.Color(248, 249, 250));
         home_btn_grp.add(jToggleButton5);
         jToggleButton5.setFont(new java.awt.Font("Poppins", 1, 18)); // NOI18N
         jToggleButton5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resourse/business-growth.png"))); // NOI18N
@@ -131,16 +138,29 @@ public class Dashboard extends javax.swing.JFrame {
             }
         });
 
+        jToggleButton6.setBackground(new java.awt.Color(248, 249, 250));
         home_btn_grp.add(jToggleButton6);
         jToggleButton6.setFont(new java.awt.Font("Poppins", 1, 18)); // NOI18N
         jToggleButton6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resourse/business-presentation.png"))); // NOI18N
         jToggleButton6.setText(" Inventory");
+        jToggleButton6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jToggleButton6ActionPerformed(evt);
+            }
+        });
 
+        jToggleButton7.setBackground(new java.awt.Color(248, 249, 250));
         home_btn_grp.add(jToggleButton7);
         jToggleButton7.setFont(new java.awt.Font("Poppins", 1, 18)); // NOI18N
         jToggleButton7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resourse/sales-clipboard.png"))); // NOI18N
         jToggleButton7.setText("  Reports");
+        jToggleButton7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jToggleButton7ActionPerformed(evt);
+            }
+        });
 
+        jToggleButton8.setBackground(new java.awt.Color(248, 249, 250));
         home_btn_grp.add(jToggleButton8);
         jToggleButton8.setFont(new java.awt.Font("Poppins", 1, 18)); // NOI18N
         jToggleButton8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resourse/setting.png"))); // NOI18N
@@ -203,7 +223,7 @@ public class Dashboard extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        mainPanel.setBackground(new java.awt.Color(251, 248, 251));
+        mainPanel.setBackground(new java.awt.Color(248, 249, 250));
         mainPanel.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(4, 41, 86), 1, true));
 
         javax.swing.GroupLayout mainPanelLayout = new javax.swing.GroupLayout(mainPanel);
@@ -281,6 +301,16 @@ public class Dashboard extends javax.swing.JFrame {
         Sales psale = new Sales();
         jpload.jPanelLoader(mainPanel, psale);
     }//GEN-LAST:event_jToggleButton5ActionPerformed
+
+    private void jToggleButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton6ActionPerformed
+        Inventory inventory = new Inventory();
+        jpload.jPanelLoader(mainPanel, inventory);
+    }//GEN-LAST:event_jToggleButton6ActionPerformed
+
+    private void jToggleButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton7ActionPerformed
+        Reports reports = new Reports();
+        jpload.jPanelLoader(mainPanel,  reports);
+    }//GEN-LAST:event_jToggleButton7ActionPerformed
 
     /**
      * @param args the command line arguments

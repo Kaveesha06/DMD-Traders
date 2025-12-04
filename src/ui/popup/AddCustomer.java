@@ -52,19 +52,19 @@ public class AddCustomer extends javax.swing.JDialog {
         jLabel2.setForeground(new java.awt.Color(15, 76, 129));
         jLabel2.setText("NIC :");
 
-        nicNo.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
+        nicNo.setFont(new java.awt.Font("Nirmala UI", 0, 16)); // NOI18N
 
         jLabel3.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(15, 76, 129));
         jLabel3.setText("Name :");
 
-        customerName.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
+        customerName.setFont(new java.awt.Font("Nirmala UI", 0, 16)); // NOI18N
 
         jLabel4.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(15, 76, 129));
         jLabel4.setText("Contact No :");
 
-        telNo.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
+        telNo.setFont(new java.awt.Font("Nirmala UI", 0, 16)); // NOI18N
 
         regButton.setBackground(new java.awt.Color(66, 153, 225));
         regButton.setFont(new java.awt.Font("Arial", 1, 20)); // NOI18N
@@ -99,12 +99,12 @@ public class AddCustomer extends javax.swing.JDialog {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(nicNo, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jLabel3)
@@ -114,7 +114,7 @@ public class AddCustomer extends javax.swing.JDialog {
                 .addComponent(jLabel4)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(telNo, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 39, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
                 .addComponent(regButton, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(22, 22, 22))
         );
