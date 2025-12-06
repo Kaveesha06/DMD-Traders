@@ -43,7 +43,7 @@
     <Container class="javax.swing.JPanel" name="jPanel1">
       <Properties>
         <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-          <Color blue="fb" green="f8" red="fb" type="rgb"/>
+          <Color blue="fa" green="f9" red="f8" type="rgb"/>
         </Property>
       </Properties>
 
@@ -83,7 +83,7 @@
         <Container class="javax.swing.JPanel" name="jPanel3">
           <Properties>
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-              <Color blue="fb" green="f8" red="fb" type="rgb"/>
+              <Color blue="fa" green="f9" red="f8" type="rgb"/>
             </Property>
             <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
               <Border info="org.netbeans.modules.form.compat2.border.EtchedBorderInfo">
@@ -133,10 +133,8 @@
                 </Property>
                 <Property name="text" type="java.lang.String" value="  DMD Traders  "/>
                 <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
-                  <Border info="org.netbeans.modules.form.compat2.border.LineBorderInfo">
-                    <LineBorder roundedCorners="true" thickness="2">
-                      <Color PropertyName="color" blue="99" green="68" red="23" type="rgb"/>
-                    </LineBorder>
+                  <Border info="org.netbeans.modules.form.compat2.border.EmptyBorderInfo">
+                    <EmptyBorder/>
                   </Border>
                 </Property>
               </Properties>
@@ -231,6 +229,9 @@
               <SubComponents>
                 <Component class="javax.swing.JToggleButton" name="jToggleButton1">
                   <Properties>
+                    <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                      <Color blue="fa" green="f9" red="f8" type="rgb"/>
+                    </Property>
                     <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
                       <ComponentRef name="home_btn_grp"/>
                     </Property>
@@ -248,6 +249,9 @@
                 </Component>
                 <Component class="javax.swing.JToggleButton" name="jToggleButton2">
                   <Properties>
+                    <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                      <Color blue="fa" green="f9" red="f8" type="rgb"/>
+                    </Property>
                     <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
                       <ComponentRef name="home_btn_grp"/>
                     </Property>
@@ -265,6 +269,9 @@
                 </Component>
                 <Component class="javax.swing.JToggleButton" name="jToggleButton3">
                   <Properties>
+                    <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                      <Color blue="fa" green="f9" red="f8" type="rgb"/>
+                    </Property>
                     <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
                       <ComponentRef name="home_btn_grp"/>
                     </Property>
@@ -282,6 +289,9 @@
                 </Component>
                 <Component class="javax.swing.JToggleButton" name="jToggleButton4">
                   <Properties>
+                    <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                      <Color blue="fa" green="f9" red="f8" type="rgb"/>
+                    </Property>
                     <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
                       <ComponentRef name="home_btn_grp"/>
                     </Property>
@@ -299,6 +309,9 @@
                 </Component>
                 <Component class="javax.swing.JToggleButton" name="jToggleButton5">
                   <Properties>
+                    <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                      <Color blue="fa" green="f9" red="f8" type="rgb"/>
+                    </Property>
                     <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
                       <ComponentRef name="home_btn_grp"/>
                     </Property>
@@ -316,6 +329,9 @@
                 </Component>
                 <Component class="javax.swing.JToggleButton" name="jToggleButton6">
                   <Properties>
+                    <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                      <Color blue="fa" green="f9" red="f8" type="rgb"/>
+                    </Property>
                     <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
                       <ComponentRef name="home_btn_grp"/>
                     </Property>
@@ -327,9 +343,15 @@
                     </Property>
                     <Property name="text" type="java.lang.String" value=" Inventory"/>
                   </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jToggleButton6ActionPerformed"/>
+                  </Events>
                 </Component>
                 <Component class="javax.swing.JToggleButton" name="jToggleButton7">
                   <Properties>
+                    <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                      <Color blue="fa" green="f9" red="f8" type="rgb"/>
+                    </Property>
                     <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
                       <ComponentRef name="home_btn_grp"/>
                     </Property>
@@ -341,9 +363,15 @@
                     </Property>
                     <Property name="text" type="java.lang.String" value="  Reports"/>
                   </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jToggleButton7ActionPerformed"/>
+                  </Events>
                 </Component>
                 <Component class="javax.swing.JToggleButton" name="jToggleButton8">
                   <Properties>
+                    <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                      <Color blue="fa" green="f9" red="f8" type="rgb"/>
+                    </Property>
                     <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
                       <ComponentRef name="home_btn_grp"/>
                     </Property>
@@ -363,7 +391,7 @@
         <Container class="javax.swing.JPanel" name="mainPanel">
           <Properties>
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-              <Color blue="fb" green="f8" red="fb" type="rgb"/>
+              <Color blue="fa" green="f9" red="f8" type="rgb"/>
             </Property>
             <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
               <Border info="org.netbeans.modules.form.compat2.border.LineBorderInfo">

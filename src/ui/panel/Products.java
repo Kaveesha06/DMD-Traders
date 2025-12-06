@@ -57,7 +57,7 @@ public class Products extends javax.swing.JPanel {
 
         jPanel1.setBackground(new java.awt.Color(248, 249, 250));
 
-        jLabel1.setFont(new java.awt.Font("Nirmala UI", 1, 18)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("Nirmala UI", 1, 20)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(15, 76, 129));
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("Add Brands");
@@ -81,7 +81,7 @@ public class Products extends javax.swing.JPanel {
 
         jPanel2.setBackground(new java.awt.Color(248, 249, 250));
 
-        jLabel2.setFont(new java.awt.Font("Nirmala UI", 1, 18)); // NOI18N
+        jLabel2.setFont(new java.awt.Font("Nirmala UI", 1, 20)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(15, 76, 129));
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel2.setText("Add Products");
@@ -211,10 +211,12 @@ public class Products extends javax.swing.JPanel {
                         .addContainerGap())))
         );
 
+        jSeparator1.setBackground(new java.awt.Color(35, 104, 153));
+        jSeparator1.setForeground(new java.awt.Color(35, 104, 153));
         jSeparator1.setOrientation(javax.swing.SwingConstants.VERTICAL);
 
         jPanel7.setBackground(new java.awt.Color(248, 249, 250));
-        jPanel7.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        jPanel7.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(35, 104, 153), 1, true));
 
         jPanel8.setBackground(new java.awt.Color(248, 249, 250));
 
@@ -229,11 +231,6 @@ public class Products extends javax.swing.JPanel {
         jLabel5.setText("Product Code:");
 
         jList2.setFont(new java.awt.Font("Nirmala UI", 0, 16)); // NOI18N
-        jList2.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public String getElementAt(int i) { return strings[i]; }
-        });
         jScrollPane3.setViewportView(jList2);
 
         jTextField4.setFont(new java.awt.Font("Nirmala UI", 0, 16)); // NOI18N
@@ -247,6 +244,7 @@ public class Products extends javax.swing.JPanel {
         jButton5.setText("Update Code");
 
         jTextField5.setBackground(new java.awt.Color(248, 249, 250));
+        jTextField5.setFont(new java.awt.Font("Nirmala UI", 0, 16)); // NOI18N
 
         javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
         jPanel8.setLayout(jPanel8Layout);
@@ -322,7 +320,7 @@ public class Products extends javax.swing.JPanel {
         jPanel5.setBackground(new java.awt.Color(248, 249, 250));
 
         jTable2.setBackground(new java.awt.Color(248, 249, 250));
-        jTable2.setFont(new java.awt.Font("Nirmala UI", 0, 12)); // NOI18N
+        jTable2.setFont(new java.awt.Font("Nirmala UI", 0, 16)); // NOI18N
         jTable2.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 

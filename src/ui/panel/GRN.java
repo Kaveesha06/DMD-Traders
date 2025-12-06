@@ -130,9 +130,9 @@ public class GRN extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jTextField2, javax.swing.GroupLayout.DEFAULT_SIZE, 185, Short.MAX_VALUE)
-                    .addComponent(jTextField3)
                     .addComponent(jTextField4, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jTextField5))
+                    .addComponent(jTextField5)
+                    .addComponent(jTextField3))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
@@ -332,11 +332,6 @@ public class GRN extends javax.swing.JPanel {
 
         jList1.setBackground(new java.awt.Color(248, 249, 250));
         jList1.setFont(new java.awt.Font("Nirmala UI", 0, 16)); // NOI18N
-        jList1.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public String getElementAt(int i) { return strings[i]; }
-        });
         jList1.setAlignmentX(1.0F);
         jList1.setAlignmentY(1.0F);
         jList1.setAutoscrolls(false);
@@ -400,6 +395,14 @@ public class GRN extends javax.swing.JPanel {
         });
         jTable1.getTableHeader().setReorderingAllowed(false);
         jScrollPane2.setViewportView(jTable1);
+        if (jTable1.getColumnModel().getColumnCount() > 0) {
+            jTable1.getColumnModel().getColumn(1).setPreferredWidth(100);
+            jTable1.getColumnModel().getColumn(2).setPreferredWidth(100);
+            jTable1.getColumnModel().getColumn(3).setPreferredWidth(100);
+            jTable1.getColumnModel().getColumn(4).setPreferredWidth(100);
+            jTable1.getColumnModel().getColumn(5).setPreferredWidth(50);
+            jTable1.getColumnModel().getColumn(6).setPreferredWidth(100);
+        }
 
         javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
         jPanel8.setLayout(jPanel8Layout);

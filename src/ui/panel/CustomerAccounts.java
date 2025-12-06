@@ -3,12 +3,11 @@ package ui.panel;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 import ui.popup.AddCustomer;
+import ui.popup.BillHistory;
 
 public class CustomerAccounts extends javax.swing.JPanel {
 
-    /**
-     * Creates new form CustomerAccounts
-     */
+    
     public CustomerAccounts() {
         initComponents();
     }
@@ -43,9 +42,10 @@ public class CustomerAccounts extends javax.swing.JPanel {
         jFormattedTextField1 = new javax.swing.JFormattedTextField();
         jFormattedTextField2 = new javax.swing.JFormattedTextField();
         jButton4 = new javax.swing.JButton();
+        jButton5 = new javax.swing.JButton();
 
         setBackground(new java.awt.Color(248, 249, 250));
-        setPreferredSize(new java.awt.Dimension(1040, 640));
+        setPreferredSize(new java.awt.Dimension(1240, 640));
 
         jPanel1.setBackground(new java.awt.Color(248, 249, 250));
 
@@ -107,12 +107,12 @@ public class CustomerAccounts extends javax.swing.JPanel {
         jTextField3.setFont(new java.awt.Font("Nirmala UI", 0, 16)); // NOI18N
 
         jButton2.setBackground(new java.awt.Color(66, 153, 225));
-        jButton2.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+        jButton2.setFont(new java.awt.Font("Arial", 1, 20)); // NOI18N
         jButton2.setText("Update");
         jButton2.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
 
         jButton3.setBackground(new java.awt.Color(229, 62, 62));
-        jButton3.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
+        jButton3.setFont(new java.awt.Font("Arial", 1, 20)); // NOI18N
         jButton3.setText("Clear Field");
         jButton3.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
 
@@ -133,7 +133,7 @@ public class CustomerAccounts extends javax.swing.JPanel {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 236, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))
+                        .addGap(0, 168, Short.MAX_VALUE))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(6, 6, 6)
                         .addComponent(jTextField2)))
@@ -172,7 +172,7 @@ public class CustomerAccounts extends javax.swing.JPanel {
 
         jPanel3.setBackground(new java.awt.Color(248, 249, 250));
 
-        jTable1.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
+        jTable1.setFont(new java.awt.Font("Nirmala UI", 0, 16)); // NOI18N
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -204,25 +204,36 @@ public class CustomerAccounts extends javax.swing.JPanel {
         jLabel6.setForeground(new java.awt.Color(15, 76, 129));
         jLabel6.setText("Paid Amount:");
 
-        jFormattedTextField1.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("'Rs.' #,##0.00' /-'"))));
+        jFormattedTextField1.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("'Rs.'#,##0.00'/-'"))));
         jFormattedTextField1.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
         jFormattedTextField1.setFont(new java.awt.Font("Nirmala UI", 0, 16)); // NOI18N
 
-        jFormattedTextField2.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("'Rs.' #,##0.00' /-'"))));
+        jFormattedTextField2.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("'Rs.'#,##0.00'/-'"))));
         jFormattedTextField2.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
         jFormattedTextField2.setFont(new java.awt.Font("Nirmala UI", 0, 16)); // NOI18N
 
         jButton4.setBackground(new java.awt.Color(56, 161, 105));
-        jButton4.setFont(new java.awt.Font("Arial", 1, 20)); // NOI18N
+        jButton4.setFont(new java.awt.Font("SansSerif", 1, 20)); // NOI18N
         jButton4.setText("Pay");
         jButton4.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+
+        jButton5.setBackground(new java.awt.Color(66, 153, 225));
+        jButton5.setFont(new java.awt.Font("SansSerif", 1, 20)); // NOI18N
+        jButton5.setText("Bill History");
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton5ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap()
+                .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 205, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jFormattedTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel5))
@@ -239,14 +250,17 @@ public class CustomerAccounts extends javax.swing.JPanel {
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel6))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jFormattedTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jFormattedTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
+                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel6))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jFormattedTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jFormattedTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(jButton5, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
 
@@ -305,12 +319,18 @@ public class CustomerAccounts extends javax.swing.JPanel {
 
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+        BillHistory dialog = new BillHistory(null, true);
+        dialog.setVisible(true);
+    }//GEN-LAST:event_jButton5ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
+    private javax.swing.JButton jButton5;
     private javax.swing.JFormattedTextField jFormattedTextField1;
     private javax.swing.JFormattedTextField jFormattedTextField2;
     private javax.swing.JLabel jLabel1;
