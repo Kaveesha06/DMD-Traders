@@ -2,16 +2,36 @@ package ui;
 
 import com.formdev.flatlaf.FlatLightLaf;
 import com.formdev.flatlaf.themes.FlatMacLightLaf;
+import hibernate.Admin;
+import hibernate.HibernateUtil;
 import java.awt.Color;
 import java.awt.event.KeyEvent;
+import javax.swing.JOptionPane;
+import javax.swing.SwingWorker;
+import org.hibernate.Criteria;
+import org.hibernate.Session;
+import org.hibernate.criterion.Restrictions;
 import org.jdesktop.swingx.prompt.PromptSupport;
+import ui.Dashboard;
+import util.Message;
 
 
 public class Signin extends javax.swing.JFrame {
 
+    private static Signin signin;
+    
+    public static synchronized Signin getInstance() {
+        if (signin == null) {
+            signin = new Signin();
+        }
+        return signin;
+    }
+    
+    private Session session;
 
     public Signin() {
         initComponents();
+        this.session = HibernateUtil.getSessionFactory().openSession();
     }
 
     private void addPlaceholders() {
@@ -51,8 +71,8 @@ public class Signin extends javax.swing.JFrame {
 
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
 
-        userName.setBackground(new java.awt.Color(105, 240, 174));
-        userName.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
+        userName.setBackground(new java.awt.Color(164, 250, 160));
+        userName.setFont(new java.awt.Font("Nirmala UI", 0, 18)); // NOI18N
         userName.setForeground(new java.awt.Color(0, 51, 0));
         userName.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 102, 0), 2, true));
         userName.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -61,8 +81,8 @@ public class Signin extends javax.swing.JFrame {
             }
         });
 
-        password.setBackground(new java.awt.Color(105, 240, 174));
-        password.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
+        password.setBackground(new java.awt.Color(164, 250, 160));
+        password.setFont(new java.awt.Font("Nirmala UI", 0, 18)); // NOI18N
         password.setForeground(new java.awt.Color(0, 51, 0));
         password.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 102, 0), 2, true));
         password.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -78,6 +98,11 @@ public class Signin extends javax.swing.JFrame {
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
+            }
+        });
+        jButton1.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jButton1KeyReleased(evt);
             }
         });
 
@@ -104,16 +129,16 @@ public class Signin extends javax.swing.JFrame {
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(25, 25, 25)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(userico, javax.swing.GroupLayout.DEFAULT_SIZE, 30, Short.MAX_VALUE)
-                    .addComponent(userName))
-                .addGap(28, 28, 28)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(pwico, javax.swing.GroupLayout.DEFAULT_SIZE, 30, Short.MAX_VALUE)
-                    .addComponent(password))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 31, Short.MAX_VALUE)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(userico, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(userName, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(pwico, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(password, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
                 .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addContainerGap(29, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -136,8 +161,7 @@ public class Signin extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(logoLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 301, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(33, Short.MAX_VALUE))
+                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -148,7 +172,9 @@ public class Signin extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(27, Short.MAX_VALUE))
         );
 
         pack();
@@ -156,7 +182,7 @@ public class Signin extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
                           
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        
+         signIn();        
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
@@ -207,21 +233,9 @@ public class Signin extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_passwordKeyReleased
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        FlatMacLightLaf.setup();
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                new Signin().setVisible(true);
-            }
-        });
-    }
+    private void jButton1KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jButton1KeyReleased
+       signIn();
+    }//GEN-LAST:event_jButton1KeyReleased
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
@@ -233,4 +247,70 @@ public class Signin extends javax.swing.JFrame {
     private javax.swing.JTextField userName;
     private javax.swing.JLabel userico;
     // End of variables declaration//GEN-END:variables
+
+    private void signIn(){
+        String userName = this.userName.getText();
+        String password = String.valueOf(this.password.getPassword());
+        
+        if (userName.isEmpty()) {
+            Message.warning("User name Can't be Empty", "Empty");
+        } else if (password.isEmpty()) {
+            Message.warning("Password can't be Empy", "Empty");
+        } else {
+            try {
+                
+                Criteria adminCriteria = session.createCriteria(Admin.class);
+                adminCriteria.add(Restrictions.eq("userName", userName));
+                adminCriteria.add(Restrictions.eq("password", password));
+                
+                if (adminCriteria.list().isEmpty()) {
+                    Message.error("Admin Not Found", "Invalid Data");
+                    reset();
+                } else {
+
+                    //-------------------Loading Animation----------------------\\
+                    LoadingScreen loading = new LoadingScreen();
+                    loading.setVisible(true);
+                    this.dispose();
+
+                    // Run loading in a background thread (so GUI doesn’t freeze)
+                    SwingWorker<Void, Void> worker = new SwingWorker<>() {
+                        @Override
+                        protected Void doInBackground() throws Exception {
+                            // Simulate loading (replace with actual dashboard setup)
+                            Thread.sleep(1500);
+                            return null;
+                        }
+                        
+                        @Override
+                        protected void done() {
+                            Dashboard.getInstance().setAdmin((Admin) adminCriteria.list().get(0));
+                            Dashboard.getInstance().setVisible(true);
+                            
+                            loading.dispose();
+                            
+                        }
+                    };
+                    worker.execute();
+                    //-------------------Loading Animation----------------------\\
+
+                    //use this if avoid loading animation//
+//                    Dashboard.getInstance().setVisible(true);
+//                    this.dispose();
+                }
+                
+            } catch (Exception e) {
+                
+//                logger.error("Can't find admin", e);
+            }
+        }
+    }
+    
+    private void reset(){
+        userName.setText("");
+        password.setText("");
+        userName.grabFocus();
+        
+    }
+    
 }
