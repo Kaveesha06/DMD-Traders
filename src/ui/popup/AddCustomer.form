@@ -12,7 +12,7 @@
     <Property name="defaultCloseOperation" type="int" value="2"/>
     <Property name="autoRequestFocus" type="boolean" value="false"/>
     <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-      <Color blue="56" green="29" red="4" type="rgb"/>
+      <Color blue="fa" green="f9" red="f8" type="rgb"/>
     </Property>
   </Properties>
   <SyntheticProperties>
