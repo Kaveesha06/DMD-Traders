@@ -1,6 +1,7 @@
 package ui;
 
 import com.formdev.flatlaf.themes.FlatMacLightLaf;
+import hibernate.Admin;
 import java.awt.BorderLayout;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
@@ -15,13 +16,27 @@ import util.JpanelLoader;
 
 public class Dashboard extends javax.swing.JFrame {
 
+    private static Dashboard home;
+
+    public static synchronized Dashboard getInstance() {
+        if (home == null) {
+            home = new Dashboard();
+        }
+        return home;
+    }
+    
     JpanelLoader jpload = new JpanelLoader();
     
     public Dashboard() {
         initComponents();
         
     }
+    
+    Admin admin;
 
+    public void setAdmin(Admin admin) {
+        this.admin = admin;
+    }
     
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -273,6 +288,7 @@ public class Dashboard extends javax.swing.JFrame {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void jToggleButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton1ActionPerformed
