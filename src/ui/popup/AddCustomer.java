@@ -1,6 +1,8 @@
 package ui.popup;
 
 //import hibernate.Customer;
+import com.formdev.flatlaf.themes.FlatMacLightLaf;
+import hibernate.Customer;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -9,6 +11,7 @@ import org.hibernate.criterion.Restrictions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ui.panel.CustomerAccounts;
+import util.Message;
 //import util.Alert;
 
 public class AddCustomer extends javax.swing.JDialog {
@@ -19,7 +22,7 @@ public class AddCustomer extends javax.swing.JDialog {
     public AddCustomer(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
-//        sessionFactory = hibernate.HibernateUtil.getSessionFactory();
+        sessionFactory = hibernate.HibernateUtil.getSessionFactory();
     }
 
     @SuppressWarnings("unchecked")
@@ -41,7 +44,7 @@ public class AddCustomer extends javax.swing.JDialog {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setAutoRequestFocus(false);
-        setBackground(new java.awt.Color(4, 41, 86));
+        setBackground(new java.awt.Color(248, 249, 250));
 
         jLabel1.setFont(new java.awt.Font("Arial", 1, 20)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(15, 76, 129));
@@ -124,32 +127,12 @@ public class AddCustomer extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void regButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_regButtonActionPerformed
-//        customerReg();
+        customerReg();
     }//GEN-LAST:event_regButtonActionPerformed
 
     public static void main(String args[]) {
 
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(AddCustomer.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(AddCustomer.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(AddCustomer.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(AddCustomer.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
+        FlatMacLightLaf.setup();
         //</editor-fold>
 
         /* Create and display the dialog */
@@ -180,67 +163,66 @@ public class AddCustomer extends javax.swing.JDialog {
     private javax.swing.JTextField telNo;
     // End of variables declaration//GEN-END:variables
 
-//    public void customerReg() {
-//        String nic = nicNo.getText();
-//        String name = customerName.getText();
-//        String phone = telNo.getText();
-//
-//        CustomerAccounts cAcc = new CustomerAccounts();
-//
-//        Session session = sessionFactory.openSession();
-//        Criteria customerCriteria = session.createCriteria(Customer.class);
-//        customerCriteria.add(Restrictions.eq("nic", nic));
-//        Customer cNic = (Customer) customerCriteria.uniqueResult();
-//
-//        try {
-//            if (nic.isEmpty()) {
-//                Alert.show("NIC was Empty", Alert.AlertType.WARNING);
-//
-//            } else if (!nic.matches("^(?:\\d{9}[VXvx]|\\d{12})$")) {
-//                Alert.show("Invalid NIC", Alert.AlertType.WARNING);
-//
-//            } else if (cNic != null) {
-//                Alert.show("NIC was Added before!", Alert.AlertType.WARNING);
-//
-//            } else if (name.isEmpty()) {
-//                Alert.show("Name was Empty", Alert.AlertType.WARNING);
-//
-//            } else if (phone.isEmpty()) {
-//                Alert.show("Mobile number was Empty", Alert.AlertType.WARNING);
-//
-//            } else if (!phone.matches("^07[01245678]{1}[0-9]{7}$")) {
-//                Alert.show("Invalid Mobile number", Alert.AlertType.WARNING);
-//
-//            } else {
-//                Transaction t = session.beginTransaction();
-//
-//                Customer customer = new Customer();
-//                customer.setNic(nic);
-//                customer.setName(name);
-//                customer.setPhone(phone);
-//
-//                session.save(customer);
-//                t.commit();
-//
-//                Alert.show("Customer added successfully!", Alert.AlertType.SUCCESS);
-//
-//                this.dispose();
-//            }
-//
-//        } catch (Exception e) {
-//            logger.error("Customer registration Error  ", e);
+    public void customerReg() {
+        String nic = nicNo.getText();
+        String name = customerName.getText();
+        String phone = telNo.getText();
+
+        CustomerAccounts cAcc = new CustomerAccounts();
+
+        Session session = sessionFactory.openSession();
+        Criteria customerCriteria = session.createCriteria(Customer.class);
+        customerCriteria.add(Restrictions.eq("nic", nic));
+        Customer cNic = (Customer) customerCriteria.uniqueResult();
+
+        try {
+            if (nic.isEmpty()) {
+                Message.warning("NIC can't be Empy", "Empty");
+
+            } else if (!nic.matches("^(?:\\d{9}[VXvx]|\\d{12})$")) {
+                Message.warning("Invalied NIC", "Empty");
+
+            } else if (cNic != null) {
+                Message.warning("NIC was added before", "Empty");
+
+            } else if (name.isEmpty()) {
+                Message.warning("Name can't be Empy", "Empty");
+
+            } else if (phone.isEmpty()) {
+                Message.warning("Mobile can't be Empy", "Empty");
+
+            } else if (!phone.matches("^07[01245678]{1}[0-9]{7}$")) {
+                Message.warning("Invalied mobile number", "Empty");
+
+            } else {
+                Transaction t = session.beginTransaction();
+
+                Customer customer = new Customer();
+                customer.setNic(nic);
+                customer.setName(name);
+                customer.setPhone(phone);
+
+                session.save(customer);
+                t.commit();
+
+                Message.sucsses("Customer added successfully!", "Sucsses");
+                this.dispose();
+            }
+
+        } catch (Exception e) {
+            logger.error("Customer registration Error  ", e);
 //            Alert.show("Registration failed !!", Alert.AlertType.ERROR);
-//
-//        } finally {
-//            session.close();
-//        }
-//
-//    }
-//
-//    public void clear() {
-//        nicNo.setText("");
-//        customerName.setText("");
-//        telNo.setText("");
-//    }
+
+        } finally {
+            session.close();
+        }
+
+    }
+
+    public void clear() {
+        nicNo.setText("");
+        customerName.setText("");
+        telNo.setText("");
+    }
 
 }

@@ -71,8 +71,8 @@ public class Signin extends javax.swing.JFrame {
 
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
 
-        userName.setBackground(new java.awt.Color(164, 250, 160));
-        userName.setFont(new java.awt.Font("Nirmala UI", 0, 18)); // NOI18N
+        userName.setBackground(new java.awt.Color(153, 255, 153));
+        userName.setFont(new java.awt.Font("Nirmala UI", 1, 20)); // NOI18N
         userName.setForeground(new java.awt.Color(0, 51, 0));
         userName.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 102, 0), 2, true));
         userName.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -81,8 +81,8 @@ public class Signin extends javax.swing.JFrame {
             }
         });
 
-        password.setBackground(new java.awt.Color(164, 250, 160));
-        password.setFont(new java.awt.Font("Nirmala UI", 0, 18)); // NOI18N
+        password.setBackground(new java.awt.Color(153, 255, 153));
+        password.setFont(new java.awt.Font("Nirmala UI", 1, 20)); // NOI18N
         password.setForeground(new java.awt.Color(0, 51, 0));
         password.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 102, 0), 2, true));
         password.addKeyListener(new java.awt.event.KeyAdapter() {
@@ -92,7 +92,7 @@ public class Signin extends javax.swing.JFrame {
         });
 
         jButton1.setBackground(new java.awt.Color(0, 200, 83));
-        jButton1.setFont(new java.awt.Font("SansSerif", 1, 20)); // NOI18N
+        jButton1.setFont(new java.awt.Font("SansSerif", 1, 22)); // NOI18N
         jButton1.setText("Sign In");
         jButton1.setBorder(javax.swing.BorderFactory.createCompoundBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 102, 0), 1, true), new javax.swing.border.LineBorder(new java.awt.Color(0, 102, 0), 1, true)));
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -131,11 +131,11 @@ public class Signin extends javax.swing.JFrame {
                 .addGap(25, 25, 25)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(userico, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(userName, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(userName, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(pwico, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(password, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(password, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(29, Short.MAX_VALUE))
