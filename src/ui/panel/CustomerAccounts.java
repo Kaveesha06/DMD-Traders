@@ -243,7 +243,7 @@ public class CustomerAccounts extends javax.swing.JPanel {
         credit_amount.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
         credit_amount.setFont(new java.awt.Font("Nirmala UI", 1, 18)); // NOI18N
 
-        paid_amount.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("'Rs.'#,##0.00'/-'"))));
+        paid_amount.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#0.00"))));
         paid_amount.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
         paid_amount.setFont(new java.awt.Font("Nirmala UI", 1, 18)); // NOI18N
 
@@ -439,6 +439,7 @@ public class CustomerAccounts extends javax.swing.JPanel {
 
         if (paid_amount.getValue() == null) {
             Message.warning("Paid amount 0.0", "Warning");
+            System.out.println(paid_amount);    
             return;
         }
         

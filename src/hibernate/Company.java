@@ -17,13 +17,14 @@ public class Company implements Serializable {
     @Column(name="id")
     private int id;
     
-    @Column(name="name", length = 45, nullable = false)    
+    @Column(name="name", length = 45, nullable = true)    
     private String name;
 
     public Company() {
     }
     
     public Company(String name) {
+        this.id = id;
         this.name = name;
     }
 
