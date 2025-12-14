@@ -365,6 +365,5 @@ public class Dashboard extends javax.swing.JFrame {
         mainPanel.add(panel, BorderLayout.CENTER);
         SwingUtilities.updateComponentTreeUI(mainPanel);
     }
-
     
 }
