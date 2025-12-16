@@ -30,7 +30,7 @@ public class Product implements Serializable {
     @Column(name = "is_divisible", nullable = false)
     private boolean isDivisible;
     
-    @Column(name="code", nullable= true)
+    @Column(name="code", length = 15, nullable= false)
     private String code;
 
     public Product() {
@@ -86,7 +86,7 @@ public class Product implements Serializable {
     }
 
     public void setCode(String Code) {
-        this.name = Code;
+        this.code= Code;
     }
     
 }

@@ -22,7 +22,6 @@ public class Products extends javax.swing.JPanel {
     private List<Product> productList = new ArrayList<>();
     private SessionFactory sessionFactory;
     private static final Logger logger = LoggerFactory.getLogger(Products.class);
-    private Product pCode;
 
     public Products() {
         initComponents();
@@ -713,7 +712,7 @@ public class Products extends javax.swing.JPanel {
             session.save(product);
             tx.commit();
 
-            Message.warning("Product added successfully!", "Warning");
+            Message.sucsses("Product added successfully!", "Sucsses");
             jTextField2.setText("");
             jCheckBox1.setSelected(false);
             loadProductsTable();
@@ -785,7 +784,7 @@ public class Products extends javax.swing.JPanel {
         }
 
         Session session = sessionFactory.openSession();
-        Transaction tx = null;
+        Transaction tx = session.beginTransaction();
 
         try {
 
@@ -799,9 +798,9 @@ public class Products extends javax.swing.JPanel {
 
             Criteria cCriteria = session.createCriteria(Product.class);
             cCriteria.add(Restrictions.eq("code", productCode));
-            Product code = (Product) cCriteria.uniqueResult();
+            Product existingCode = (Product) cCriteria.uniqueResult();
 
-            if (code != null) {
+            if (existingCode != null) {
                 Message.warning("Code has entered!", "Warning");
                 return;
             }
@@ -810,19 +809,22 @@ public class Products extends javax.swing.JPanel {
                 Message.warning("Brand & Product doesn't match!", "Warning");
                 return;
             }
-            
-            pCode.setCode(productCode);
-            
-            tx = session.beginTransaction();
-            
-            session.update(pCode);
+
+            // productCode must be upgrade to database
+            product.setCode(productCode);
+            session.update(product);
+
             tx.commit();
 
             Message.sucsses("Code entererd Success!!", "Success");
 
+            loadProductsTable();
             clear();
 
         } catch (Exception e) {
+            if (tx != null) {
+                tx.rollback();
+            }
             e.printStackTrace();
             Message.error("Something went Wrong!", "Error");
         } finally {
