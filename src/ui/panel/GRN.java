@@ -1,39 +1,43 @@
 package ui.panel;
 
+import hibernate.Company;
 import hibernate.GRNItem;
 import hibernate.Product;
 import hibernate.Stock;
+import hibernate.Supplier;
 import java.awt.event.KeyEvent;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Vector;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
 import javax.swing.table.DefaultTableModel;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Restrictions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import util.Message;
 
-
 public class GRN extends javax.swing.JPanel {
 
     private static final Logger logger = LoggerFactory.getLogger(GRN.class);
     private SessionFactory sessionFactory;
-    
-    
+
     public GRN() {
         initComponents();
         this.sessionFactory = hibernate.HibernateUtil.getSessionFactory();
         jTextField2.setEnabled(false);
         jTextField1.grabFocus();
+        this.stockList = new ArrayList<>();
+        loadSupplier();
     }
 
-    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -407,6 +411,11 @@ public class GRN extends javax.swing.JPanel {
         jButton1.setBackground(new java.awt.Color(56, 161, 105));
         jButton1.setFont(new java.awt.Font("SansSerif", 1, 20)); // NOI18N
         jButton1.setText("Save GRN");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
@@ -658,7 +667,7 @@ public class GRN extends javax.swing.JPanel {
     }//GEN-LAST:event_jTextField6KeyReleased
 
     private void jTextField7KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField7KeyReleased
-       if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
             addProduct();
             jTextField8.grabFocus();
         }
@@ -696,6 +705,10 @@ public class GRN extends javax.swing.JPanel {
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         clear();
     }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        save();
+    }//GEN-LAST:event_jButton1ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -747,7 +760,7 @@ public class GRN extends javax.swing.JPanel {
     private ArrayList<Stock> stockList;
     private Product currernt;
     private double total;
-    
+
     private void findProduct() {
         Session session = sessionFactory.openSession();
         Criteria criteria = session.createCriteria(Product.class);
@@ -765,14 +778,14 @@ public class GRN extends javax.swing.JPanel {
         }
         this.jList1.setModel(listModel);
     }
-    
+
     private void addProduct() {
         int index = jList1.getSelectedIndex();
         Product product = productsList.get(index);
-        this.jTextField2 .setText(product.getName());
+        this.jTextField2.setText(product.getName());
         this.currernt = product;
     }
-    
+
     private void addToList() {
         // Get values from form fields
         String buyingPriceText = this.jTextField3.getText().trim();
@@ -864,7 +877,7 @@ public class GRN extends javax.swing.JPanel {
             }
         }
     }
-    
+
     private void loadTable() {
         DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
         model.setRowCount(0);
@@ -883,10 +896,27 @@ public class GRN extends javax.swing.JPanel {
         }
         this.jFormattedTextField1.setText(String.valueOf(totalPrice));
         this.jTable1.setModel(model);
-        System.out.println(String.valueOf(total));
     }
-    
-    private void clear(){
+
+    private void loadSupplier() {
+        try {
+            Session session = sessionFactory.openSession();
+            Criteria criteria = session.createCriteria(Supplier.class);
+            List<Supplier> cList = criteria.list();
+
+            DefaultComboBoxModel boxModel = new DefaultComboBoxModel();
+            boxModel.addElement("Select Supplier");
+            for (Supplier supplier : cList) {
+                boxModel.addElement(supplier.getName());
+            }
+            this.jComboBox1.setModel(boxModel);
+            session.close();
+        } catch (Exception e) {
+            logger.error("Supplier Load error:", e);
+        }
+    }
+
+    private void clear() {
         jTextField2.setText("");
         jTextField1.setText("");
         jList1.clearSelection();
@@ -904,6 +934,56 @@ public class GRN extends javax.swing.JPanel {
         jTable1.removeAll();
         jComboBox1.setSelectedIndex(0);
         currernt = null;
+
     }
-    
+
+    private void save() {
+
+        if (!stockList.isEmpty()) {
+            Session session = hibernate.HibernateUtil.getSessionFactory().openSession();
+            Transaction transaction = session.beginTransaction();
+
+            String name = (String) jComboBox1.getSelectedItem();
+
+            Criteria criteria = session.createCriteria(Supplier.class);
+            criteria.add(Restrictions.eq("name", name));
+            Supplier s = (Supplier) criteria.uniqueResult();
+
+            if (s != null) {
+                try {
+                    hibernate.GRN grn = new hibernate.GRN(0, new Date(), s);
+                    int id = (int) session.save(grn);
+                    grn.setId(id);
+                    for (Stock stock : stockList) {
+                        stock.getGrnItem().setGrn(grn);
+                        session.save(stock.getGrnItem());
+                        session.save(stock);
+                    }
+                    transaction.commit();
+                    Message.sucsses("Product Added", "Process Done");
+                    clear();
+                    jFormattedTextField1.setText("");
+                    jTable1.clearSelection();
+                    jTable1.removeAll();
+                    productsList = new ArrayList<>();
+                    stockList = new ArrayList<>();
+                    currernt = null;
+                    total = 0;
+                    loadTable();
+                    session.close();
+                    
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    transaction.rollback();
+                    Message.error("GRN Registration Faild", "Data Base Error");
+                    logger.error("GRN save error", e);
+                }
+            } else {
+                Message.error("Supplier Not found", "Validation Error");
+            }
+        } else {
+            Message.error("GRN Iteam not in the list ", "Validation Error");
+        }
+    }
+
 }
