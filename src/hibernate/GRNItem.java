@@ -20,11 +20,11 @@ public class GRNItem implements Serializable {
     private int id;
 
     @ManyToOne
-    @JoinColumn(name = "product")
+    @JoinColumn(name = "product_id")
     private Product product;
 
     @ManyToOne
-    @JoinColumn(name = "grn")
+    @JoinColumn(name = "grn_id")
     private GRN grn;
 
     @Column(name = "buying_price")

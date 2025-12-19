@@ -26,8 +26,8 @@ public class GRN implements Serializable {
     private Date date;
 
     @ManyToOne
-    @JoinColumn(name = "company_id")
-    private Company company;
+    @JoinColumn(name = "supplier_id")
+    private Supplier supplier;
 
     @OneToMany(mappedBy = "grn", cascade = CascadeType.ALL)
     private List<GRNItem> grnItems;
@@ -35,10 +35,10 @@ public class GRN implements Serializable {
     public GRN() {
     }
 
-    public GRN(int id, Date date, Company company) {
+    public GRN(int id, Date date, Supplier supplier) {
         this.id = id;
         this.date = date;
-        this.company = company;
+        this.supplier = supplier;
     }
 
     public List<GRNItem> getGrnItems() {
@@ -65,12 +65,12 @@ public class GRN implements Serializable {
         this.date = date;
     }
 
-    public Company getCompany() {
-        return company;
+    public Supplier getSupplier() {
+        return supplier;
     }
 
-    public void setCompany(Company company) {
-        this.company = company;
+    public void setSupplier(Supplier supplier) {
+        this.supplier = supplier;
     }
 
 }

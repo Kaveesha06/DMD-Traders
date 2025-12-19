@@ -43,7 +43,7 @@ public class Stock implements Serializable {
     @Column(name = "price", nullable = false)
     private double price;
 
-    @Column(name = "price_pre_unit", nullable = false)
+    @Column(name = "price_per_unit", nullable = false)
     private double pricePerUnit;
 
     // Constructors
