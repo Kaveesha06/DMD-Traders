@@ -676,12 +676,12 @@ public class Sales extends javax.swing.JPanel {
                 }
 
             } else {
-                isLoose.setEnabled(false);
+                jCheckBox1.setEnabled(false);
                 Stock product = current;
-                kg.setEnabled(false);
-                g.setEnabled(false);
-                qty.setEnabled(true);
-                price.setText(String.valueOf(product.getPrice()));
+                jTextField6.setEnabled(false);
+                jTextField7.setEnabled(false);
+                jTextField8.setEnabled(true);
+                jTextField10.setText(String.valueOf(product.getPrice()));
             }
         }
 
