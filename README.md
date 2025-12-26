@@ -1,7 +1,4 @@
 # DMD-Traders
 
-## JAVA 
-## Hibernate
-## MySQL
-## NetBean
+## JAVA ## Hibernate  ## MySQL  ## NetBean
 
