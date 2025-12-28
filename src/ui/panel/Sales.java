@@ -1,31 +1,42 @@
 package ui.panel;
 
+import hibernate.Customer;
+import hibernate.Product;
+import hibernate.Sale;
 import hibernate.SaleItem;
 import hibernate.Stock;
+import java.awt.event.KeyEvent;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Vector;
+import javax.swing.DefaultListModel;
 import javax.swing.table.DefaultTableModel;
+import net.sf.jasperreports.engine.data.JRTableModelDataSource;
+import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
+import org.hibernate.criterion.MatchMode;
+import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Restrictions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import util.Message;
-
 
 public class Sales extends javax.swing.JPanel {
 
     private SessionFactory sessionFactory;
     private static final Logger logger = LoggerFactory.getLogger(Sales.class);
-    
+
     public Sales() {
         initComponents();
         sessionFactory = hibernate.HibernateUtil.getSessionFactory();
         this.productList = new ArrayList<>();
-        
+
         jTextField2.setEditable(false);
         jTextField3.setEditable(false);
         jTextField4.setEditable(false);
@@ -33,10 +44,10 @@ public class Sales extends javax.swing.JPanel {
         jTextField6.setEnabled(false);
         jTextField7.setEnabled(false);
         jTextField10.setEditable(false);
+        jButton4.setEnabled(false);
         java.awt.EventQueue.invokeLater(() -> jTextField1.requestFocusInWindow());
     }
 
-    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -136,23 +147,30 @@ public class Sales extends javax.swing.JPanel {
         jLabel3.setForeground(new java.awt.Color(15, 76, 129));
         jLabel3.setText("Product Name:");
 
+        jTextField2.setEditable(false);
         jTextField2.setFont(new java.awt.Font("Nirmala UI", 0, 16)); // NOI18N
+        jTextField2.setText("NULL");
 
         jLabel4.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(15, 76, 129));
         jLabel4.setText("Expire Date:");
 
+        jTextField3.setEditable(false);
         jTextField3.setFont(new java.awt.Font("Nirmala UI", 0, 16)); // NOI18N
+        jTextField3.setText("-");
 
         jLabel5.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(15, 76, 129));
         jLabel5.setText("Item Discount:");
 
+        jTextField4.setEditable(false);
         jTextField4.setFont(new java.awt.Font("Nirmala UI", 0, 16)); // NOI18N
+        jTextField4.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        jTextField4.setText("0");
 
         jCheckBox1.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
         jCheckBox1.setForeground(new java.awt.Color(15, 76, 129));
-        jCheckBox1.setText("Loose sell : ");
+        jCheckBox1.setText("Loose sell:");
         jCheckBox1.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         jCheckBox1.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         jCheckBox1.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
@@ -167,33 +185,66 @@ public class Sales extends javax.swing.JPanel {
         jLabel7.setText("kg/l:");
 
         jTextField6.setFont(new java.awt.Font("Nirmala UI", 0, 16)); // NOI18N
+        jTextField6.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        jTextField6.setText("0");
+        jTextField6.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jTextField6KeyReleased(evt);
+            }
+        });
 
         jLabel8.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
         jLabel8.setForeground(new java.awt.Color(15, 76, 129));
         jLabel8.setText("g/l:");
 
         jTextField7.setFont(new java.awt.Font("Nirmala UI", 0, 16)); // NOI18N
+        jTextField7.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        jTextField7.setText("0");
+        jTextField7.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jTextField7KeyReleased(evt);
+            }
+        });
 
         jLabel9.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
         jLabel9.setForeground(new java.awt.Color(15, 76, 129));
         jLabel9.setText("Quantity:");
 
         jTextField8.setFont(new java.awt.Font("Nirmala UI", 0, 16)); // NOI18N
+        jTextField8.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        jTextField8.setText("0");
+        jTextField8.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jTextField8KeyReleased(evt);
+            }
+        });
 
         jLabel10.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
         jLabel10.setForeground(new java.awt.Color(15, 76, 129));
         jLabel10.setText("Brand:");
 
+        jTextField9.setEditable(false);
         jTextField9.setFont(new java.awt.Font("Nirmala UI", 0, 16)); // NOI18N
+        jTextField9.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        jTextField9.setText("NULL");
 
+        jTextField10.setEditable(false);
         jTextField10.setFont(new java.awt.Font("Nirmala UI", 0, 16)); // NOI18N
         jTextField10.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        jTextField10.setText("0.0");
 
+        jList1.setBackground(new java.awt.Color(248, 249, 250));
+        jList1.setBorder(null);
         jList1.setFont(new java.awt.Font("Nirmala UI", 0, 16)); // NOI18N
-        jList1.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public String getElementAt(int i) { return strings[i]; }
+        jList1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jList1MouseClicked(evt);
+            }
+        });
+        jList1.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jList1KeyReleased(evt);
+            }
         });
         jScrollPane2.setViewportView(jList1);
 
@@ -393,12 +444,22 @@ public class Sales extends javax.swing.JPanel {
         jCheckBox2.setForeground(new java.awt.Color(15, 76, 129));
         jCheckBox2.setText("Selling for Credits : ");
         jCheckBox2.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
+        jCheckBox2.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                jCheckBox2ItemStateChanged(evt);
+            }
+        });
 
         jLabel11.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
         jLabel11.setForeground(new java.awt.Color(15, 76, 129));
         jLabel11.setText("NIC:");
 
         jTextField5.setFont(new java.awt.Font("Nirmala UI", 0, 16)); // NOI18N
+        jTextField5.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jTextField5KeyReleased(evt);
+            }
+        });
 
         jButton3.setBackground(new java.awt.Color(66, 153, 225));
         jButton3.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
@@ -408,12 +469,18 @@ public class Sales extends javax.swing.JPanel {
         jLabel12.setForeground(new java.awt.Color(15, 76, 129));
         jLabel12.setText("Name:");
 
+        jTextField11.setEditable(false);
         jTextField11.setFont(new java.awt.Font("Nirmala UI", 0, 16)); // NOI18N
 
         jCheckBox3.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
         jCheckBox3.setForeground(new java.awt.Color(15, 76, 129));
         jCheckBox3.setText("Save Customer : ");
         jCheckBox3.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
+        jCheckBox3.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jCheckBox3KeyReleased(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
         jPanel7.setLayout(jPanel7Layout);
@@ -473,14 +540,24 @@ public class Sales extends javax.swing.JPanel {
         jLabel15.setForeground(new java.awt.Color(15, 76, 129));
         jLabel15.setText("Total:");
 
+        jFormattedTextField1.setEditable(false);
         jFormattedTextField1.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        jFormattedTextField1.setText("0.0");
         jFormattedTextField1.setFont(new java.awt.Font("Nirmala UI", 0, 16)); // NOI18N
 
         jFormattedTextField2.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        jFormattedTextField2.setText("0");
         jFormattedTextField2.setFont(new java.awt.Font("Nirmala UI", 0, 16)); // NOI18N
+        jFormattedTextField2.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jFormattedTextField2KeyReleased(evt);
+            }
+        });
 
+        jFormattedTextField3.setEditable(false);
         jFormattedTextField3.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
-        jFormattedTextField3.setFont(new java.awt.Font("Nirmala UI", 0, 16)); // NOI18N
+        jFormattedTextField3.setText("0.0");
+        jFormattedTextField3.setFont(new java.awt.Font("Nirmala UI", 1, 16)); // NOI18N
 
         jLabel16.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
         jLabel16.setForeground(new java.awt.Color(15, 76, 129));
@@ -491,14 +568,27 @@ public class Sales extends javax.swing.JPanel {
         jLabel17.setText("Balance:");
 
         jFormattedTextField4.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
-        jFormattedTextField4.setFont(new java.awt.Font("Nirmala UI", 0, 16)); // NOI18N
+        jFormattedTextField4.setText("0");
+        jFormattedTextField4.setFont(new java.awt.Font("Nirmala UI", 1, 16)); // NOI18N
+        jFormattedTextField4.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jFormattedTextField4KeyReleased(evt);
+            }
+        });
 
+        jFormattedTextField5.setEditable(false);
         jFormattedTextField5.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
-        jFormattedTextField5.setFont(new java.awt.Font("Nirmala UI", 0, 16)); // NOI18N
+        jFormattedTextField5.setText("0.0");
+        jFormattedTextField5.setFont(new java.awt.Font("Nirmala UI", 1, 18)); // NOI18N
 
         jButton4.setBackground(new java.awt.Color(56, 161, 105));
         jButton4.setFont(new java.awt.Font("Arial", 1, 20)); // NOI18N
         jButton4.setText("Sell");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
 
         jPanel8.setBackground(new java.awt.Color(248, 249, 250));
 
@@ -624,8 +714,9 @@ public class Sales extends javax.swing.JPanel {
 
     private void jTextField1KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField1KeyReleased
 //        if (this.jTextField1.getText().trim().length() >= 8) {
-            loadProduct(this.jTextField1.getText());
+//            loadProduct(this.jTextField1.getText());
 //        }
+        findProduct();
     }//GEN-LAST:event_jTextField1KeyReleased
 
     private void jCheckBox1ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jCheckBox1ItemStateChanged
@@ -639,6 +730,79 @@ public class Sales extends javax.swing.JPanel {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         clear();
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        if (!productList.isEmpty() && productList != null) {
+            save();
+        }
+    }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void jTextField5KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField5KeyReleased
+        findCutomer();
+    }//GEN-LAST:event_jTextField5KeyReleased
+
+    private void jList1KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jList1KeyReleased
+//        loadProduct(jList1.getSelectedValue());
+        String selectedProduct = jList1.getSelectedValue();
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            if (selectedProduct != null) {
+                String productName = selectedProduct;
+                loadProduct(productName);
+                jTextField8.grabFocus();
+            }
+        } else {
+            findProduct();
+        }
+    }//GEN-LAST:event_jList1KeyReleased
+
+    private void jList1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jList1MouseClicked
+        String selectedProduct = jList1.getSelectedValue();
+        if (selectedProduct != null) {
+            String productName = selectedProduct;
+            loadProduct(productName);
+            jTextField8.grabFocus();
+        }
+    }//GEN-LAST:event_jList1MouseClicked
+
+    private void jFormattedTextField2KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jFormattedTextField2KeyReleased
+        setDicount();
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            jFormattedTextField4.grabFocus();
+        }
+    }//GEN-LAST:event_jFormattedTextField2KeyReleased
+
+    private void jFormattedTextField4KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jFormattedTextField4KeyReleased
+        paid();
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+           jButton4.grabFocus();
+        }
+    }//GEN-LAST:event_jFormattedTextField4KeyReleased
+
+    private void jTextField8KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField8KeyReleased
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            jButton2.grabFocus();
+        }
+    }//GEN-LAST:event_jTextField8KeyReleased
+
+    private void jTextField6KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField6KeyReleased
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            jTextField7.grabFocus();
+        }
+    }//GEN-LAST:event_jTextField6KeyReleased
+
+    private void jTextField7KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField7KeyReleased
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            jButton2.grabFocus();
+        }
+    }//GEN-LAST:event_jTextField7KeyReleased
+
+    private void jCheckBox2ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jCheckBox2ItemStateChanged
+        creditSell();
+    }//GEN-LAST:event_jCheckBox2ItemStateChanged
+
+    private void jCheckBox3KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jCheckBox3KeyReleased
+        saveBill();
+    }//GEN-LAST:event_jCheckBox3KeyReleased
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -698,36 +862,93 @@ public class Sales extends javax.swing.JPanel {
     SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
     private Stock current;
     private List<SaleItem> productList;
-    
-    
-    private void loadProduct(String id) {
-        try {
-            Session session = sessionFactory.openSession();
-            Stock product = (Stock) session.get(Stock.class, Integer.valueOf(id));
 
-            if (product != null) {
-                this.current = product;
-                changeQTY(product);
-                this.jTextField2.setText(product.getGrnItem().getProduct().getName());
+    private ArrayList<Product> productsList;
 
-                Date expDate = product.getExp();
-                this.jTextField3.setText(sdf.format(expDate));
+    private void findProduct() {
+        Session session = sessionFactory.openSession();
+        Criteria criteria = session.createCriteria(Product.class);
 
-                jTextField4.setText(String.valueOf(product.getDiscount()));
-                jTextField9.setText(product.getGrnItem().getProduct().getBrand().getName());
-                jTextField10.setText(String.valueOf(product.getPrice()));
-                loosed();
-            } else {
-                current = null;
-                Message.sucsses("Product Not Found", "Valication Error");
-            }
-        } catch (Exception e) {
-            current = null;
-            Message.sucsses("Product Not Found", "Valication Error");
-            logger.error("product Serch", e);
+        if (!jTextField1.getText().isEmpty()) {
+            criteria.add(Restrictions.ilike("code", jTextField1.getText(), MatchMode.ANYWHERE));
         }
+
+        productsList = (ArrayList<Product>) criteria.list();
+        session.close();
+
+        DefaultListModel<String> listModel = new DefaultListModel<>();
+        for (Product p : productsList) {
+            listModel.addElement(p.getName());
+        }
+        this.jList1.setModel(listModel);
     }
-    
+
+    private void loadProduct(String pName) {
+        Session session = sessionFactory.openSession();
+        try {
+
+            Criteria criteria = session.createCriteria(Product.class);
+            criteria.add(Restrictions.eq("name", pName));
+            Product productO = (Product) criteria.uniqueResult();
+
+            if (productO != null) {
+
+                int pId = productO.getId();
+
+                /* Load available stock */
+                Criteria stockCriteria = session.createCriteria(Stock.class, "stock")
+                        .createAlias("stock.grnItem", "grnItem")
+                        .createAlias("grnItem.product", "product")
+                        .add(Restrictions.eq("product.id", pId))
+                        .add(
+                                Restrictions.or(
+                                        Restrictions.gt("stock.wholeQty", 0),
+                                        Restrictions.gt("stock.looseQty", 0.0)
+                                )
+                        );
+
+                /* If you want the earliest expiry stock first */
+                stockCriteria.addOrder(Order.asc("stock.exp"));
+
+                Stock stock = (Stock) stockCriteria.setMaxResults(1).uniqueResult();
+
+                if (stock != null) {
+                    this.current = stock;
+                    changeQTY(stock);
+
+                    jTextField2.setText(stock.getGrnItem().getProduct().getName());
+
+                    Date expDate = stock.getExp();
+                    this.jTextField3.setText(sdf.format(expDate));
+
+                    jTextField4.setText(String.valueOf(stock.getDiscount()));
+                    jTextField9.setText(stock.getGrnItem().getProduct().getBrand().getName());
+                    jTextField10.setText(String.valueOf(stock.getPrice()));
+
+                    loosed();
+
+                } else {
+                    Message.sucsses("No Available Stock", "Stock Info");
+                    logger.error("No Available Stock!");
+                    clear() ;
+                }
+            } else {
+                Message.sucsses("Product Not Found", "Validation Error");
+                logger.error("Product not Found!");
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            Message.sucsses("Product Not Found", "Validation Error");
+            logger.error("Product Search", e);
+        } finally {
+            if (session != null) {
+                session.close();
+            }
+        }
+
+    }
+
     //Is loose sells
     private void changeQTY(Stock product) {
         if (product.getGrnItem().getProduct().GetIsDivisible()) {
@@ -738,7 +959,7 @@ public class Sales extends javax.swing.JPanel {
 
         }
     }
-    
+
     public void loosed() {
         if (current != null) {
             if (current.getGrnItem().getProduct().GetIsDivisible()) {
@@ -750,6 +971,7 @@ public class Sales extends javax.swing.JPanel {
                     jTextField7.setEnabled(true);
                     jTextField8.setEnabled(false);
                     jTextField10.setText(String.valueOf(product.getPricePerUnit()));
+                    jTextField6.grabFocus();
 
                 } else {
                     jTextField6.setEnabled(false);
@@ -769,10 +991,9 @@ public class Sales extends javax.swing.JPanel {
         }
 
     }
-    
-    
-    private void addToList() {
 
+    private void addToList() {
+        
         if (current != null) {
             String qtyText = this.jTextField8.getText().trim();
             String kgText = this.jTextField6.getText().trim();
@@ -791,7 +1012,7 @@ public class Sales extends javax.swing.JPanel {
                         double kg = Double.parseDouble(kgText);
                         double g = Double.parseDouble(gText);
 
-                        if (g > 1000) {
+                        if (g >= 1000) {
                             Message.warning("Grams cannot be more than 1000.", "Validation Error");
                         } else {
                             double totalKg = kg + (g / 1000.0);
@@ -800,7 +1021,7 @@ public class Sales extends javax.swing.JPanel {
                                 double newQty = current.getLooseQty() - totalKg;
                                 current.setLooseQty(newQty);
                                 productList.add(new SaleItem(current, null, totalKg, current.getPricePerUnit(), false, 0));
-                            } else {
+                             } else {
                                 if (current.getWholeQty() >= 1) {
                                     double packSize = (current.getPackSize());
 
@@ -811,6 +1032,7 @@ public class Sales extends javax.swing.JPanel {
                                         current.setLooseQty(newLosee);
                                         productList.add(new SaleItem(current, null, totalKg, current.getPricePerUnit(), false, 0));
                                         clear();
+                                        jTextField1.grabFocus();
                                     } else {
                                         Message.warning("Loose Qty Higer Tha Pack Size. Add a pack", "QTY Error");
                                     }
@@ -844,6 +1066,7 @@ public class Sales extends javax.swing.JPanel {
                                 current.setWholeQty(newQty);
                                 productList.add(new SaleItem(current, null, qty, current.getPrice(), true, current.getDiscount()));
                                 clear();
+                                jTextField1.grabFocus();
                             } else {
                                 Message.warning("Invalied Quantity.", "Validation Error");
                             }
@@ -861,12 +1084,11 @@ public class Sales extends javax.swing.JPanel {
             Message.warning("Product Not Found", "Valication Error");
         }
     }
-    
-    
+
     private double Grndtotal;
     private double subTotal;
-    DecimalFormat df = new DecimalFormat("#.00");    
-    
+    DecimalFormat df = new DecimalFormat("#.00");
+
     private void loadTable() {
         subTotal = 0;
         DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
@@ -897,24 +1119,185 @@ public class Sales extends javax.swing.JPanel {
         }
     }
 
+//set discount from owner for whole prices
+    private void setDicount() {
+        if (!this.jFormattedTextField2.getText().isEmpty()) {
+            try {
+                double discount = Double.parseDouble(jFormattedTextField2.getText());
+                if (discount >= 0 && subTotal > discount) {
+                    Grndtotal = subTotal - discount;
+                    jFormattedTextField3.setText(df.format(Grndtotal));
+                } else {
+                    Message.warning("Invalid Discount Type", "Validation Error");
+                    jFormattedTextField3.setText(df.format(subTotal));
+                }
+            } catch (Exception e) {
+                jFormattedTextField3.setText(df.format(subTotal));
+                Message.error("Invalid Discount Type", "Validation Error");
+            }
+
+        } else {
+            jFormattedTextField3.setText(df.format(subTotal));   
+        }
+        
+    }
     
-    private void clear(){
+    private void paid() {
+        try {
+            if (!jFormattedTextField4.getText().isEmpty()) {
+                Double paidAmount = Double.parseDouble(jFormattedTextField4.getText());
+
+                Double balanceA = Grndtotal - paidAmount;
+                DecimalFormat rsdf = new DecimalFormat("'Rs.' #,##0.00'/-'");
+                
+                if (balanceA <= 0) {
+//                    balance.setText(String.format("%.2f",balanceA));
+                    jFormattedTextField5.setText(rsdf.format(balanceA));
+                    
+                    jButton4.setEnabled(true);
+                    return;
+                }
+            }
+
+            jButton4.setEnabled(false);
+            jFormattedTextField5.setText(String.valueOf("NAN"));
+
+        } catch (Exception e) {
+            jButton4.setEnabled(false);
+            jFormattedTextField5.setText(String.valueOf("NAN"));
+        }
+    }
+    
+    
+    private Customer customer;
+
+     private void save() {
+        Session session = sessionFactory.openSession();
+        Sale sale = new Sale(0, new Date(), true, null);
+        if (jCheckBox2.isSelected()) {
+            try {
+                Customer customer = this.customer;
+                if (customer != null) {
+                    sale.setCustomer(customer);
+                    sale.setIsCash(false);
+                    customer.setCredits(customer.getCredits() + Grndtotal); // need to update to total 
+                    session.update(customer);
+                } else {
+                    Message.warning("Customer Not Found", "Error");
+                    
+                }
+            } catch (Exception e) {
+                Message.warning("Customer Not Found", "Not found Error");
+                
+            }
+        }
+        
+        if(jCheckBox3.isSelected()){
+            Customer customer = this.customer;
+        }
+
+        Transaction transaction = session.beginTransaction();
+
+        try {
+            int sid = (int) session.save(sale);
+            sale.setId(sid);
+            for (SaleItem p : productList) {
+                p.setSale(sale);
+                session.update(p.getStock());
+                session.save(p);
+            }
+            if (customer != null) {
+                System.out.println("");
+
+            }
+
+            String subTotal = String.valueOf(this.jFormattedTextField1.getText());
+            String dicount = String.valueOf(this.jFormattedTextField2.getText());
+            String total = String.valueOf(this.jFormattedTextField3.getText());
+            String paid = String.valueOf(this.jFormattedTextField4.getText());
+            String balance = String.valueOf(this.jFormattedTextField5.getText());
+
+            if (subTotal.isBlank()) {
+                subTotal = "0.00";
+            }
+            if (dicount.isBlank()) {
+                subTotal = "0.00";
+            }
+            if (total.isBlank()) {
+                subTotal = "0.00";
+            }
+            if (paid.isBlank()) {
+                subTotal = "0.00";
+            }
+            if (balance.isBlank()) {
+                subTotal = "0.00";
+            }
+
+            JRTableModelDataSource dataSourse = new JRTableModelDataSource(jTable1.getModel());
+            HashMap<String, Object> parm = new HashMap<>();
+            parm.put("Parameter1", String.valueOf(sid));
+            parm.put("Parameter2", new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(new Date()));
+            parm.put("Parameter3", subTotal);
+            parm.put("Parameter4", dicount);
+            parm.put("Parameter5", total);
+            parm.put("Parameter6", paid);
+            parm.put("Parameter7", balance);
+
+            String in = "C:\\pos\\bill1.jasper";
+            new util.Reporting().printReport(in, parm, dataSourse);
+
+            transaction.commit();
+            clear();
+        } catch (Exception e) {
+            e.printStackTrace();
+            transaction.rollback();
+            Message.warning("Payment Error Plase Try Again", "Payments");
+        }
+    }
+     
+     private void creditSell() {
+        if (jCheckBox2.isSelected()) {
+            jButton4.setEnabled(true);
+        } else {
+            jButton4.setEnabled(false);
+        }
+    }
+
+    private void findCutomer() {
+        try {
+            String id = this.jTextField5.getText();
+            if (id.length() >= 9) {
+                Session session = sessionFactory.openSession();
+                customer = (Customer) session.get(Customer.class, id);
+                jTextField11.setText(customer.getName());
+                session.close();
+            }
+        } catch (Exception e) {
+        }
+    }
+    
+    private void saveBill(){
+        
+    }
+
+    private void clear() {
         jTextField1.setText("");
-        jTextField2.setText("");
-        jTextField3.setText("");
-        jTextField4.setText("");
+        jTextField2.setText("NULL");
+        jTextField3.setText("-");
+        jTextField4.setText("0");
         jTextField5.setText("");
-        jTextField6.setText("");
-        jTextField7.setText("");
-        jTextField8.setText("");
-        jTextField9.setText("");
-        jTextField10.setText("");
+        jTextField6.setText("0");
+        jTextField7.setText("0");
+        jTextField8.setText("0");
+        jTextField9.setText("NULL");
+        jTextField10.setText("0.0");
         jTextField11.setText("");
         jCheckBox1.setSelected(false);
         jCheckBox2.setSelected(false);
         jCheckBox3.setSelected(false);
         current = null;
         jButton4.setEnabled(false);
+       loadTable();
     }
-    
+
 }
