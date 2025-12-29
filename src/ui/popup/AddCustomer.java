@@ -3,6 +3,7 @@ package ui.popup;
 //import hibernate.Customer;
 import com.formdev.flatlaf.themes.FlatMacLightLaf;
 import hibernate.Customer;
+import java.awt.event.KeyEvent;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -56,18 +57,33 @@ public class AddCustomer extends javax.swing.JDialog {
         jLabel2.setText("NIC :");
 
         nicNo.setFont(new java.awt.Font("Nirmala UI", 0, 16)); // NOI18N
+        nicNo.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                nicNoKeyReleased(evt);
+            }
+        });
 
         jLabel3.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(15, 76, 129));
         jLabel3.setText("Name :");
 
         customerName.setFont(new java.awt.Font("Nirmala UI", 0, 16)); // NOI18N
+        customerName.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                customerNameKeyReleased(evt);
+            }
+        });
 
         jLabel4.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(15, 76, 129));
         jLabel4.setText("Contact No :");
 
         telNo.setFont(new java.awt.Font("Nirmala UI", 0, 16)); // NOI18N
+        telNo.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                telNoKeyReleased(evt);
+            }
+        });
 
         regButton.setBackground(new java.awt.Color(66, 153, 225));
         regButton.setFont(new java.awt.Font("Arial", 1, 20)); // NOI18N
@@ -129,6 +145,24 @@ public class AddCustomer extends javax.swing.JDialog {
     private void regButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_regButtonActionPerformed
         customerReg();
     }//GEN-LAST:event_regButtonActionPerformed
+
+    private void nicNoKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_nicNoKeyReleased
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            customerName.grabFocus();
+        }   
+    }//GEN-LAST:event_nicNoKeyReleased
+
+    private void customerNameKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_customerNameKeyReleased
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            telNo.grabFocus();
+        }  
+    }//GEN-LAST:event_customerNameKeyReleased
+
+    private void telNoKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_telNoKeyReleased
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            regButton.grabFocus();
+        }  
+    }//GEN-LAST:event_telNoKeyReleased
 
     public static void main(String args[]) {
 

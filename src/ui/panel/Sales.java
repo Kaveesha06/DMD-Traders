@@ -25,6 +25,7 @@ import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import ui.popup.AddCustomer;
 import util.Message;
 
 public class Sales extends javax.swing.JPanel {
@@ -90,7 +91,6 @@ public class Sales extends javax.swing.JPanel {
         jButton3 = new javax.swing.JButton();
         jLabel12 = new javax.swing.JLabel();
         jTextField11 = new javax.swing.JTextField();
-        jCheckBox3 = new javax.swing.JCheckBox();
         jLabel13 = new javax.swing.JLabel();
         jLabel14 = new javax.swing.JLabel();
         jLabel15 = new javax.swing.JLabel();
@@ -157,7 +157,7 @@ public class Sales extends javax.swing.JPanel {
 
         jTextField3.setEditable(false);
         jTextField3.setFont(new java.awt.Font("Nirmala UI", 0, 16)); // NOI18N
-        jTextField3.setText("-");
+        jTextField3.setText("--");
 
         jLabel5.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(15, 76, 129));
@@ -438,10 +438,9 @@ public class Sales extends javax.swing.JPanel {
         jPanel6.setBackground(new java.awt.Color(248, 249, 250));
 
         jPanel7.setBackground(new java.awt.Color(248, 249, 250));
-        jPanel7.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(35, 104, 153), 1, true));
+        jPanel7.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
 
         jCheckBox2.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
-        jCheckBox2.setForeground(new java.awt.Color(15, 76, 129));
         jCheckBox2.setText("Selling for Credits : ");
         jCheckBox2.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
         jCheckBox2.addItemListener(new java.awt.event.ItemListener() {
@@ -451,7 +450,6 @@ public class Sales extends javax.swing.JPanel {
         });
 
         jLabel11.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
-        jLabel11.setForeground(new java.awt.Color(15, 76, 129));
         jLabel11.setText("NIC:");
 
         jTextField5.setFont(new java.awt.Font("Nirmala UI", 0, 16)); // NOI18N
@@ -464,23 +462,17 @@ public class Sales extends javax.swing.JPanel {
         jButton3.setBackground(new java.awt.Color(66, 153, 225));
         jButton3.setFont(new java.awt.Font("Arial", 1, 18)); // NOI18N
         jButton3.setText("New Customer");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
 
         jLabel12.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
-        jLabel12.setForeground(new java.awt.Color(15, 76, 129));
         jLabel12.setText("Name:");
 
         jTextField11.setEditable(false);
         jTextField11.setFont(new java.awt.Font("Nirmala UI", 0, 16)); // NOI18N
-
-        jCheckBox3.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
-        jCheckBox3.setForeground(new java.awt.Color(15, 76, 129));
-        jCheckBox3.setText("Save Customer : ");
-        jCheckBox3.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
-        jCheckBox3.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyReleased(java.awt.event.KeyEvent evt) {
-                jCheckBox3KeyReleased(evt);
-            }
-        });
 
         javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
         jPanel7.setLayout(jPanel7Layout);
@@ -488,7 +480,7 @@ public class Sales extends javax.swing.JPanel {
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel7Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel7Layout.createSequentialGroup()
                         .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jLabel11, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -500,23 +492,18 @@ public class Sales extends javax.swing.JPanel {
                                 .addGap(18, 18, 18)
                                 .addComponent(jButton3)
                                 .addGap(0, 0, Short.MAX_VALUE))
-                            .addComponent(jTextField11))
-                        .addContainerGap())
+                            .addComponent(jTextField11)))
                     .addGroup(jPanel7Layout.createSequentialGroup()
-                        .addGap(10, 10, 10)
-                        .addComponent(jCheckBox3)
-                        .addGap(69, 69, 69)
                         .addComponent(jCheckBox2)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
         );
         jPanel7Layout.setVerticalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel7Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jCheckBox2, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jCheckBox3, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
+                .addGap(12, 12, 12)
+                .addComponent(jCheckBox2, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -525,7 +512,7 @@ public class Sales extends javax.swing.JPanel {
                 .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jTextField11, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addGap(0, 10, Short.MAX_VALUE))
         );
 
         jLabel13.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
@@ -542,7 +529,6 @@ public class Sales extends javax.swing.JPanel {
 
         jFormattedTextField1.setEditable(false);
         jFormattedTextField1.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
-        jFormattedTextField1.setText("0.0");
         jFormattedTextField1.setFont(new java.awt.Font("Nirmala UI", 0, 16)); // NOI18N
 
         jFormattedTextField2.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
@@ -556,7 +542,6 @@ public class Sales extends javax.swing.JPanel {
 
         jFormattedTextField3.setEditable(false);
         jFormattedTextField3.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
-        jFormattedTextField3.setText("0.0");
         jFormattedTextField3.setFont(new java.awt.Font("Nirmala UI", 1, 16)); // NOI18N
 
         jLabel16.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
@@ -568,7 +553,6 @@ public class Sales extends javax.swing.JPanel {
         jLabel17.setText("Balance:");
 
         jFormattedTextField4.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
-        jFormattedTextField4.setText("0");
         jFormattedTextField4.setFont(new java.awt.Font("Nirmala UI", 1, 16)); // NOI18N
         jFormattedTextField4.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
@@ -743,16 +727,16 @@ public class Sales extends javax.swing.JPanel {
 
     private void jList1KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jList1KeyReleased
 //        loadProduct(jList1.getSelectedValue());
-        String selectedProduct = jList1.getSelectedValue();
-        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
-            if (selectedProduct != null) {
-                String productName = selectedProduct;
-                loadProduct(productName);
-                jTextField8.grabFocus();
-            }
-        } else {
-            findProduct();
-        }
+//        String selectedProduct = jList1.getSelectedValue();
+//        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+//            if (selectedProduct != null) {
+//                String productName = selectedProduct;
+//                loadProduct(productName);
+//                jTextField8.grabFocus();
+//            }
+//        } else {
+//            findProduct();
+//        }
     }//GEN-LAST:event_jList1KeyReleased
 
     private void jList1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jList1MouseClicked
@@ -800,9 +784,10 @@ public class Sales extends javax.swing.JPanel {
         creditSell();
     }//GEN-LAST:event_jCheckBox2ItemStateChanged
 
-    private void jCheckBox3KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jCheckBox3KeyReleased
-        saveBill();
-    }//GEN-LAST:event_jCheckBox3KeyReleased
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        AddCustomer addCustomer = new AddCustomer(null, true);
+        addCustomer.setVisible(true);
+    }//GEN-LAST:event_jButton3ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -812,7 +797,6 @@ public class Sales extends javax.swing.JPanel {
     private javax.swing.JButton jButton4;
     private javax.swing.JCheckBox jCheckBox1;
     private javax.swing.JCheckBox jCheckBox2;
-    private javax.swing.JCheckBox jCheckBox3;
     private javax.swing.JFormattedTextField jFormattedTextField1;
     private javax.swing.JFormattedTextField jFormattedTextField2;
     private javax.swing.JFormattedTextField jFormattedTextField3;
@@ -902,8 +886,9 @@ public class Sales extends javax.swing.JPanel {
                         .add(Restrictions.eq("product.id", pId))
                         .add(
                                 Restrictions.or(
-                                        Restrictions.gt("stock.wholeQty", 0),
-                                        Restrictions.gt("stock.looseQty", 0.0)
+                                        Restrictions.gt("stock.wholeQty", 0)
+//                                        ,
+//                                        Restrictions.gt("stock.looseQty", 0.0)
                                 )
                         );
 
@@ -1183,18 +1168,16 @@ public class Sales extends javax.swing.JPanel {
                     customer.setCredits(customer.getCredits() + Grndtotal); // need to update to total 
                     session.update(customer);
                 } else {
-                    Message.warning("Customer Not Found", "Error");
-                    
+                    Message.warning("Customer Not Found", "Warning");
+                    return;
                 }
             } catch (Exception e) {
-                Message.warning("Customer Not Found", "Not found Error");
+                Message.error("Customer Not Found", "Error");
                 
             }
         }
         
-        if(jCheckBox3.isSelected()){
-            Customer customer = this.customer;
-        }
+        
 
         Transaction transaction = session.beginTransaction();
 
@@ -1203,12 +1186,14 @@ public class Sales extends javax.swing.JPanel {
             sale.setId(sid);
             for (SaleItem p : productList) {
                 p.setSale(sale);
+//                if(customer != null){
+//                    sale.setCustomer(customer);
+//                }
                 session.update(p.getStock());
                 session.save(p);
             }
             if (customer != null) {
-                System.out.println("");
-
+                sale.setCustomer(customer);
             }
 
             String subTotal = String.valueOf(this.jFormattedTextField1.getText());
@@ -1248,10 +1233,15 @@ public class Sales extends javax.swing.JPanel {
 
             transaction.commit();
             clear();
+            jFormattedTextField1.setText("");
+            jFormattedTextField2.setText("0");
+            jFormattedTextField3.setText("");
+            jFormattedTextField4.setText("0");
+            jFormattedTextField5.setText("0.0");
         } catch (Exception e) {
             e.printStackTrace();
             transaction.rollback();
-            Message.warning("Payment Error Plase Try Again", "Payments");
+            Message.error("Payment Error Plase Try Again", "Payments Error");
         }
     }
      
@@ -1276,14 +1266,11 @@ public class Sales extends javax.swing.JPanel {
         }
     }
     
-    private void saveBill(){
-        
-    }
 
     private void clear() {
         jTextField1.setText("");
         jTextField2.setText("NULL");
-        jTextField3.setText("-");
+        jTextField3.setText("--");
         jTextField4.setText("0");
         jTextField5.setText("");
         jTextField6.setText("0");
@@ -1294,10 +1281,11 @@ public class Sales extends javax.swing.JPanel {
         jTextField11.setText("");
         jCheckBox1.setSelected(false);
         jCheckBox2.setSelected(false);
-        jCheckBox3.setSelected(false);
+        
         current = null;
         jButton4.setEnabled(false);
-       loadTable();
+        
+        loadTable();
     }
 
 }
