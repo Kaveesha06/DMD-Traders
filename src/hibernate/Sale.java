@@ -34,7 +34,7 @@ public class Sale implements Serializable {
     private boolean isCash;
 
     @ManyToOne
-    @JoinColumn(name = "custome_nic", nullable = true)
+    @JoinColumn(name = "customer_nic", nullable = true)
     private Customer customer;
     
     @OneToMany(mappedBy = "sale", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
