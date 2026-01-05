@@ -3,6 +3,7 @@ package ui.panel;
 import hibernate.Sale;
 import hibernate.SaleItem;
 import java.text.DecimalFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -104,6 +105,11 @@ public class Reports extends javax.swing.JPanel {
         jButton1.setBackground(new java.awt.Color(229, 62, 62));
         jButton1.setFont(new java.awt.Font("SansSerif", 1, 20)); // NOI18N
         jButton1.setText("Clear");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         jButton2.setBackground(new java.awt.Color(66, 153, 225));
         jButton2.setFont(new java.awt.Font("SansSerif", 1, 20)); // NOI18N
@@ -199,6 +205,11 @@ public class Reports extends javax.swing.JPanel {
         jButton3.setBackground(new java.awt.Color(66, 153, 225));
         jButton3.setFont(new java.awt.Font("SansSerif", 1, 20)); // NOI18N
         jButton3.setText("Confirm");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -397,6 +408,14 @@ public class Reports extends javax.swing.JPanel {
         dailyRepo();
     }//GEN-LAST:event_jButton2ActionPerformed
 
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        monthRepo();
+    }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        clear();
+    }//GEN-LAST:event_jButton1ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
@@ -431,7 +450,7 @@ public class Reports extends javax.swing.JPanel {
     public void dailyRepo() {
 
         if (jDateChooser1.getDate() == null) {
-            System.out.println("Data not selected");
+            JOptionPane.showMessageDialog(this, "No date Selected !");
         } else {
             Date selectedDate = jDateChooser1.getDate();
 
@@ -518,4 +537,113 @@ public class Reports extends javax.swing.JPanel {
     }
 
     
+    public void monthRepo() {
+        if (jMonthChooser1.getMonth() == -1 || jYearChooser1.getYear() == 0) {
+            JOptionPane.showMessageDialog(this, "Please select month and year.");
+        } else {
+            int month = jMonthChooser1.getMonth();
+            int year = jYearChooser1.getYear();
+
+            Calendar cal = Calendar.getInstance();
+            cal.clear();
+            cal.set(Calendar.YEAR, year);
+            cal.set(Calendar.MONTH, month);
+            cal.set(Calendar.DAY_OF_MONTH, 1);
+
+            Date startOfMonth = new java.sql.Date(cal.getTimeInMillis());
+            cal.add(Calendar.MONTH, 1);
+            Date endOfMonth = new java.sql.Date(cal.getTimeInMillis());
+
+            Session session = sessionFactory.openSession();
+            Transaction t = null;
+
+            try {
+                t = session.beginTransaction();
+
+                Criteria c = session.createCriteria(Sale.class);
+                c.add(Restrictions.ge("date", startOfMonth));
+                c.add(Restrictions.lt("date", endOfMonth));
+
+                List<Sale> sales = c.list();
+
+                if (sales.isEmpty()) {
+                    JOptionPane.showMessageDialog(this, "No sales found for "
+                            + (month + 1) + "/" + year);
+                } else {
+
+                    Map<Integer, Object[]> itemMap = new LinkedHashMap<>();
+
+                    for (Sale sale : sales) {
+                        for (SaleItem item : sale.getSaleItems()) {
+                            Integer stockId = item.getStock().getId();
+
+                            if (itemMap.containsKey(stockId)) {
+
+                                Object[] existingRow = itemMap.get(stockId);
+
+                                double newQty = (Double) existingRow[4] + item.getQuantity();
+                                double newIncome = (Double) existingRow[6] + item.getStock().getPrice() * item.getQuantity();
+
+                                existingRow[4] = newQty;
+                                existingRow[6] = newIncome;
+
+                                itemMap.put(stockId, existingRow);
+
+                            } else {
+
+                                double income = item.getStock().getPrice() * item.getQuantity();
+                                double totalIncome = income * ((100 - item.getDiscount()) / 100);
+
+                                itemMap.put(stockId, new Object[]{
+                                    item.getStock().getGrnItem().getProduct().getName(),
+                                    item.getStock().getGrnItem().getProduct().getBrand().getName(),
+                                    item.getStock().getGrnItem().getBuyingPrice(),
+                                    item.getStock().getPrice(),
+                                    item.getQuantity(),
+                                    item.getDiscount(),
+                                    totalIncome
+
+                                });
+                            }
+                        }
+                    }
+
+                    DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+                    model.setRowCount(0);
+
+                    for (Object[] row : itemMap.values()) {
+                        model.addRow(row);
+                    }
+
+                    double monthlyIncomeTotal = 0.0;
+                    for (int i = 0; i < model.getRowCount(); i++) {
+                        Object value = model.getValueAt(i, 6);
+                        if (value != null) {
+                            monthlyIncomeTotal += Double.parseDouble(value.toString());
+                        }
+                    }
+
+                    DecimalFormat df = new DecimalFormat("'Rs.' #,##0.00' /-'");
+                    jFormattedTextField1.setText(df.format(monthlyIncomeTotal));
+
+                }
+
+                t.commit();
+            } catch (Exception e) {
+                e.printStackTrace();
+            } finally {
+                session.close();
+            }
+        }
+    }
+
+    
+    private void clear() {
+        jDateChooser1.setDate(null);
+        jMonthChooser1.setDayChooser(null);
+        jYearChooser1.setDayChooser(null);
+        jFormattedTextField1.setText("");
+        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+        model.setRowCount(0);
+    }
 }
