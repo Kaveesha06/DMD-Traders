@@ -7,3 +7,33 @@
 
   
   <h1 align="center">💻 DMD Traders</h1>
+
+
+<p align="center">
+  <img src="https://img.shields.io/badge/Made%20with-Java-orange?style=for-the-badge&logo=java"/>
+  <img src="https://img.shields.io/badge/Database-MySQL-blue?style=for-the-badge&logo=mysql"/>
+  <img src="https://img.shields.io/badge/IDE-NetBeans-purple?style=for-the-badge&logo=apachenetbeanside"/>
+  <img src="https://img.shields.io/badge/ORM-Hibernate-59666C?style=for-the-badge&logo=hibernate"/>
+  <!-- <img src="https://img.shields.io/badge/License-MIT-green?style=for-the-badge"/> -->
+</p>
+
+---
+
+## 🧪 Overview
+
+**DMD Traders** is a complete **Inventory Management System** specifically designed for a **Grocery shop**.  
+It helps store owners manage their **product inventory, supplier records, sales, and billing** efficiently.
+
+---
+
+## ⚙️ Tech Stack
+
+| Technology | Description |
+|-------------|-------------|
+| 🟦 **Java (JDK 21)** | Core logic and GUI development |
+| 🟨 **MySQL** | Database management system |
+| 🧩 **Hibernate ORM** | Object-relational mapping framework |
+| 🧱 **NetBeans GUI Builder** | Used to design a clean, user-friendly interface |
+
+---
+
