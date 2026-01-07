@@ -14,7 +14,7 @@
   <img src="https://img.shields.io/badge/Database-MySQL-blue?style=for-the-badge&logo=mysql"/>
   <img src="https://img.shields.io/badge/IDE-NetBeans-purple?style=for-the-badge&logo=apachenetbeanside"/>
   <img src="https://img.shields.io/badge/ORM-Hibernate-59666C?style=for-the-badge&logo=hibernate"/>
-  <!-- <img src="https://img.shields.io/badge/License-MIT-green?style=for-the-badge"/> -->
+  <img src="https://img.shields.io/badge/License-MIT-green?style=for-the-badge"/>
 </p>
 
 ---
@@ -36,4 +36,26 @@ It helps store owners manage their **product inventory, supplier records, sales,
 | 🧱 **NetBeans GUI Builder** | Used to design a clean, user-friendly interface |
 
 ---
+
+## ✨ Features
+
+
+✅ Manage Supplier & Customer Information  
+✅ Record and Track Sales  
+✅ View Inventory Reports  
+✅ Generate Bills & Receipts  
+✅ Login Authentication System  
+✅ Hibernate-powered Database Connectivity  
+
+---
+
+## 🏗️ Architecture - MVC Pattern
+
+This project follows the **Model–View–Controller (MVC)** architecture:
+
+- **Model** → Defines business logic and Hibernate entity classes.  
+- **View** → GUI created using NetBeans GUI Builder (Swing).  
+- **Controller** → Handles data flow between the View and Model.
+---
+
 
