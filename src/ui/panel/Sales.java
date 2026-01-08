@@ -913,12 +913,12 @@ public class Sales extends javax.swing.JPanel {
                     loosed();
 
                 } else {
-                    Message.sucsses("No Available Stock", "Stock Info");
+                    Message.warning("No Available Stock", "Stock Info");
                     logger.error("No Available Stock!");
                     clear() ;
                 }
             } else {
-                Message.sucsses("Product Not Found", "Validation Error");
+                Message.error("Product Not Found", "Validation Error");
                 logger.error("Product not Found!");
             }
 

@@ -18,6 +18,7 @@ import org.hibernate.criterion.Restrictions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ui.popup.BillHistory;
+import util.Message;
 
 
 public class Reports extends javax.swing.JPanel {
@@ -255,6 +256,7 @@ public class Reports extends javax.swing.JPanel {
 
         jPanel6.setBackground(new java.awt.Color(248, 249, 250));
 
+        jTable1.setFont(new java.awt.Font("Nirmala UI", 0, 16)); // NOI18N
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null, null, null}
@@ -465,7 +467,7 @@ public class Reports extends javax.swing.JPanel {
                 List<Sale> sales = c.list();
 
                 if (sales.isEmpty()) {
-                    JOptionPane.showMessageDialog(this, "No sales found on this date.");
+                    Message.warning("No sales found on this date..", "Empty");
                 } else {
 
                     Map<Integer, Object[]> itemMap = new LinkedHashMap<>();
@@ -539,7 +541,7 @@ public class Reports extends javax.swing.JPanel {
     
     public void monthRepo() {
         if (jMonthChooser1.getMonth() == -1 || jYearChooser1.getYear() == 0) {
-            JOptionPane.showMessageDialog(this, "Please select month and year.");
+            Message.warning("Please select month and year.", "Empty !");
         } else {
             int month = jMonthChooser1.getMonth();
             int year = jYearChooser1.getYear();
@@ -567,8 +569,7 @@ public class Reports extends javax.swing.JPanel {
                 List<Sale> sales = c.list();
 
                 if (sales.isEmpty()) {
-                    JOptionPane.showMessageDialog(this, "No sales found for "
-                            + (month + 1) + "/" + year);
+                    Message.warning("No sales found for "+ (month + 1) + "/" + year, "Empty !");
                 } else {
 
                     Map<Integer, Object[]> itemMap = new LinkedHashMap<>();
