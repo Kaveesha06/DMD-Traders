@@ -392,7 +392,7 @@ public class BillHistory extends javax.swing.JDialog {
                             sale.getCustomer().getNic(),
                             sale.getCustomer().getName(),
                             sale.getDate(),
-                            sale.getIsCash()
+                            sale.isIsCash()
                         });
 
                     }
