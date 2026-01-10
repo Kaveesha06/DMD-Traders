@@ -1,5 +1,6 @@
 package ui.popup;
 
+import hibernate.Customer;
 import hibernate.Sale;
 import java.util.Date;
 import java.util.LinkedHashMap;
@@ -384,17 +385,25 @@ public class BillHistory extends javax.swing.JDialog {
 
                     for (Sale sale : sales) {
 
-                        Integer saleId = sale.getId();
+                        Customer customer = sale.getCustomer();
 
-                        itemMap.put(saleId, new Object[]{
-                            
+                        String nic = "--";
+                        String name = "--";
+
+                        if (customer != null) {
+                            nic = customer.getNic();     // may be null
+                            name = customer.getName();  // may be null
+                        }
+
+                        String paymentType = sale.isIsCash() ? "Cash" : "Credit";
+
+                        itemMap.put(sale.getId(), new Object[]{
                             sale.getId(),
-                            sale.getCustomer().getNic(),
-                            sale.getCustomer().getName(),
+                            nic,
+                            name,
                             sale.getDate(),
-                            sale.getIsCash()
+                            paymentType
                         });
-
                     }
 
                     DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
