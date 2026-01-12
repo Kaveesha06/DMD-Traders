@@ -59,7 +59,6 @@ public class BillHistory extends javax.swing.JDialog {
         jButton5 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setResizable(false);
 
         jPanel1.setBackground(new java.awt.Color(248, 249, 250));
 
@@ -122,6 +121,11 @@ public class BillHistory extends javax.swing.JDialog {
         jButton3.setBackground(new java.awt.Color(229, 62, 62));
         jButton3.setFont(new java.awt.Font("SansSerif", 1, 20)); // NOI18N
         jButton3.setText("Clear");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -185,6 +189,11 @@ public class BillHistory extends javax.swing.JDialog {
             }
         });
         jTable1.getTableHeader().setReorderingAllowed(false);
+        jTable1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTable1MouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(jTable1);
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
@@ -307,12 +316,26 @@ public class BillHistory extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-
+        forNic();
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         forDate();
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        jTextField1.setText("");
+        jTextField2.setText("");
+        jTextField3.setText("");
+        jDateChooser1.setDate(null);
+        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+        model.setRowCount(0);
+        
+    }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
+        
+    }//GEN-LAST:event_jTable1MouseClicked
 
     /**
      * @param args the command line arguments
@@ -363,7 +386,7 @@ public class BillHistory extends javax.swing.JDialog {
 
     private void forDate() {
         if (jDateChooser1.getDate() == null) {
-            JOptionPane.showMessageDialog(this, "No date Selected !");
+            Message.warning("No date Selected !", "Empty value");
         } else {
             Date selectedDate = jDateChooser1.getDate();
             Session session = sessionFactory.openSession();
@@ -425,4 +448,75 @@ public class BillHistory extends javax.swing.JDialog {
         }
     }
 
+    private void forNic() {
+        if (jTextField1 == null) {
+            Message.warning("NIC was empty!", "Empty value");
+        } else {
+            String selectedNic = jTextField1.getText();
+            Session session = sessionFactory.openSession();
+            Transaction t = null;
+
+            try {
+
+                t = session.beginTransaction();
+
+                Criteria c = session.createCriteria(Customer.class);
+                c.add(Restrictions.eq("nic", selectedNic));
+                Customer customer = (Customer) c.uniqueResult();
+
+                if (customer != null) {
+
+                    Criteria saleCriteria = session.createCriteria(Sale.class);
+                    saleCriteria.add(Restrictions.eq("customer", customer));
+
+                    List<Sale> sales = saleCriteria.list();
+
+                    // Now `sales` contains all sales for that customer
+                    
+                   Map<Integer, Object[]> itemMap = new LinkedHashMap<>();
+
+                    for (Sale sale : sales) {
+
+                        String nic = "--";
+                        String name = "--";
+
+                        if (customer != null) {
+                            nic = customer.getNic();     // may be null
+                            name = customer.getName();  // may be null
+                        }
+
+                        String paymentType = sale.isIsCash() ? "Cash" : "Credit";
+
+                        itemMap.put(sale.getId(), new Object[]{
+                            sale.getId(),
+                            nic,
+                            name,
+                            sale.getDate(),
+                            paymentType
+                        });
+                    }
+
+                    DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+                    model.setRowCount(0);
+
+                    for (Object[] row : itemMap.values()) {
+                        model.addRow(row);
+                    }
+                }else{
+                    Message.warning("No History found on this Customer.", "Billing Details");
+                }
+                   
+
+
+                t.commit();
+
+            } catch (Exception e) {
+                e.printStackTrace();
+
+            } finally {
+                session.close();
+            }
+
+        }
+    }
 }
