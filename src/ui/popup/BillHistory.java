@@ -2,6 +2,7 @@ package ui.popup;
 
 import hibernate.Customer;
 import hibernate.Sale;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.LinkedHashMap;
@@ -17,6 +18,7 @@ import org.hibernate.criterion.Restrictions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ui.panel.Reports;
+import util.BillPdfGenerator;
 import util.Message;
 
 public class BillHistory extends javax.swing.JDialog {
@@ -24,14 +26,14 @@ public class BillHistory extends javax.swing.JDialog {
     private SessionFactory sessionFactory;
     private static final Logger logger = LoggerFactory.getLogger(Reports.class);
     private Sale selectedSale;
-    private List <Sale> saleList = new ArrayList<>();
-    
+    private List<Sale> saleList = new ArrayList<>();
+
     public BillHistory(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
 
         sessionFactory = hibernate.HibernateUtil.getSessionFactory();
-        
+
     }
 
     @SuppressWarnings("unchecked")
@@ -354,30 +356,62 @@ public class BillHistory extends javax.swing.JDialog {
         jDateChooser1.setDate(null);
         DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
         model.setRowCount(0);
-        
+
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
+//        int row = jTable1.getSelectedRow();
+//        
+//        if(row != -1){
+//            selectedSale = saleList.get(row);
+//            jTextField3.setText(selectedSale.getCustomer().getName());
+//            jTextField2.setText(String.valueOf(selectedSale.getId()));
+//            jTextField1.setText(selectedSale.getCustomer().getNic());
+//            jDateChooser1.setDate(selectedSale.getDate());
+//            jTextField4.setText(selectedSale.getCustomer().getPhone());
+//            
+//        }else{
+//            System.out.println("row ==-1");
+//        }
+
         int row = jTable1.getSelectedRow();
-        
-        if(row != -1){
-            selectedSale = saleList.get(row);
-            jTextField3.setText(selectedSale.getCustomer().getName());
-            jTextField2.setText(String.valueOf(selectedSale.getId()));
-            jTextField1.setText(selectedSale.getCustomer().getNic());
-            jDateChooser1.setDate(selectedSale.getDate());
-            jTextField4.setText(selectedSale.getCustomer().getPhone());
-            
+
+        if (row == -1) {
+            return;
         }
-        
+
+        if (saleList == null || row >= saleList.size()) {
+            System.out.println("saleList empty or row out of bounds");
+            return;
+        }
+
+        selectedSale = saleList.get(row);
+
+        jTextField3.setText(selectedSale.getCustomer().getName());
+        jTextField2.setText(String.valueOf(selectedSale.getId()));
+        jTextField1.setText(selectedSale.getCustomer().getNic());
+        jDateChooser1.setDate(selectedSale.getDate());
+        jTextField4.setText(selectedSale.getCustomer().getPhone());
+
     }//GEN-LAST:event_jTable1MouseClicked
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        
+        if (selectedSale == null) {
+            Message.warning("Please select a bill first!", "No Selection");
+            return;
+        }
+
+        try {
+            File pdf = BillPdfGenerator.generateBill(selectedSale);
+            java.awt.Desktop.getDesktop().open(pdf);
+        } catch (Exception e) {
+            e.printStackTrace();
+            Message.warning("Unable to open bill!", "Error");
+        }
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
-        
+
     }//GEN-LAST:event_jButton5ActionPerformed
 
     /**
@@ -430,138 +464,230 @@ public class BillHistory extends javax.swing.JDialog {
     // End of variables declaration//GEN-END:variables
 
     private void forDate() {
+
+        // 1. Validate date
         if (jDateChooser1.getDate() == null) {
             Message.warning("No date Selected !", "Empty value");
-        } else {
-            Date selectedDate = jDateChooser1.getDate();
-            Session session = sessionFactory.openSession();
-            Transaction t = null;
+            return;
+        }
 
-            try {
+        Date selectedDate = jDateChooser1.getDate();
 
-                t = session.beginTransaction();
+        Session session = null;
+        Transaction tx = null;
 
-                Criteria c = session.createCriteria(Sale.class);
-                c.add(Restrictions.eq("date", selectedDate));
-                List<Sale> sales = c.list();
+        try {
+            session = sessionFactory.openSession();
+            tx = session.beginTransaction();
 
-                if (sales.isEmpty()) {
-                    Message.warning("No History found on this date.", "Billing Details");
-                } else {
+            Criteria c = session.createCriteria(Sale.class);
+            c.add(Restrictions.eq("date", selectedDate));
 
-                    Map<Integer, Object[]> itemMap = new LinkedHashMap<>();
+            List<Sale> sales = c.list();
 
-                    for (Sale sale : sales) {
+            // 2. Prepare table & list
+            DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+            model.setRowCount(0);
 
-                        Customer customer = sale.getCustomer();
+            saleList = new ArrayList<>();   // ⭐ always reset list ⭐
 
-                        String nic = "--";
-                        String name = "--";
-
-                        if (customer != null) {
-                            nic = customer.getNic();     // may be null
-                            name = customer.getName();  // may be null
-                        }
-
-                        String paymentType = sale.isIsCash() ? "Cash" : "Credit";
-
-                        itemMap.put(sale.getId(), new Object[]{
-                            sale.getId(),
-                            nic,
-                            name,
-                            sale.getDate(),
-                            paymentType
-                        });
-                    }
-
-                    DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
-                    model.setRowCount(0);
-
-                    for (Object[] row : itemMap.values()) {
-                        model.addRow(row);
-                    }
-
-                }
-
-                t.commit();
-            } catch (Exception e) {
-                e.printStackTrace();
-            } finally {
-                session.close();
+            // 3. No results
+            if (sales == null || sales.isEmpty()) {
+                Message.warning("No History found on this date.", "Billing Details");
+                return;
             }
 
-        }
-    }
+            // 4. Fill list and table together
+            for (Sale sale : sales) {
 
-    private void forNic() {
-        if (jTextField1 == null) {
-            Message.warning("NIC was empty!", "Empty value");
-        } else {
-            String selectedNic = jTextField1.getText();
-            Session session = sessionFactory.openSession();
-            Transaction t = null;
+                saleList.add(sale); // ⭐ keep list in sync ⭐
 
-            try {
+                Customer customer = sale.getCustomer();
 
-                t = session.beginTransaction();
-
-                Criteria c = session.createCriteria(Customer.class);
-                c.add(Restrictions.eq("nic", selectedNic));
-                Customer customer = (Customer) c.uniqueResult();
+                String nic = "--";
+                String name = "--";
 
                 if (customer != null) {
-
-                    Criteria saleCriteria = session.createCriteria(Sale.class);
-                    saleCriteria.add(Restrictions.eq("customer", customer));
-
-                    List<Sale> sales = saleCriteria.list();
-
-                    // Now `sales` contains all sales for that customer
-                    
-                   Map<Integer, Object[]> itemMap = new LinkedHashMap<>();
-
-                    for (Sale sale : sales) {
-
-                        String nic = "--";
-                        String name = "--";
-
-                        if (customer != null) {
-                            nic = customer.getNic();     // may be null
-                            name = customer.getName();  // may be null
-                        }
-
-                        String paymentType = sale.isIsCash() ? "Cash" : "Credit";
-
-                        itemMap.put(sale.getId(), new Object[]{
-                            sale.getId(),
-                            nic,
-                            name,
-                            sale.getDate(),
-                            paymentType
-                        });
+                    if (customer.getNic() != null) {
+                        nic = customer.getNic();
                     }
-
-                    DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
-                    model.setRowCount(0);
-
-                    for (Object[] row : itemMap.values()) {
-                        model.addRow(row);
+                    if (customer.getName() != null) {
+                        name = customer.getName();
                     }
-                }else{
-                    Message.warning("No History found on this Customer.", "Billing Details");
                 }
-                   
 
+                String paymentType = sale.isIsCash() ? "Cash" : "Credit";
 
-                t.commit();
-
-            } catch (Exception e) {
-                e.printStackTrace();
-
-            } finally {
-                session.close();
+                model.addRow(new Object[]{
+                    sale.getId(),
+                    nic,
+                    name,
+                    sale.getDate(),
+                    paymentType
+                });
             }
 
+            tx.commit();
+
+        } catch (Exception e) {
+            if (tx != null) {
+                tx.rollback();
+            }
+            e.printStackTrace();
+
+        } finally {
+            if (session != null) {
+                session.close();
+            }
         }
     }
+    
+    
+
+//    private void forNic() {
+//        if (jTextField1 == null) {
+//            Message.warning("NIC was empty!", "Empty value");
+//        } else {
+//            String selectedNic = jTextField1.getText();
+//            Session session = sessionFactory.openSession();
+//            Transaction t = null;
+//
+//            try {
+//
+//                t = session.beginTransaction();
+//
+//                Criteria c = session.createCriteria(Customer.class);
+//                c.add(Restrictions.eq("nic", selectedNic));
+//                Customer customer = (Customer) c.uniqueResult();
+//
+//                if (customer != null) {
+//
+//                    Criteria saleCriteria = session.createCriteria(Sale.class);
+//                    saleCriteria.add(Restrictions.eq("customer", customer));
+//
+//                    List<Sale> sales = saleCriteria.list();
+//
+//                    // Now `sales` contains all sales for that customer
+//                    Map<Integer, Object[]> itemMap = new LinkedHashMap<>();
+//
+//                    for (Sale sale : sales) {
+//
+//                        String nic = "--";
+//                        String name = "--";
+//
+//                        if (customer != null) {
+//                            nic = customer.getNic();     // may be null
+//                            name = customer.getName();  // may be null
+//                        }
+//
+//                        String paymentType = sale.isIsCash() ? "Cash" : "Credit";
+//
+//                        itemMap.put(sale.getId(), new Object[]{
+//                            sale.getId(),
+//                            nic,
+//                            name,
+//                            sale.getDate(),
+//                            paymentType
+//                        });
+//                    }
+//
+//                    DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+//                    model.setRowCount(0);
+//
+//                    for (Object[] row : itemMap.values()) {
+//                        model.addRow(row);
+//                    }
+//                } else {
+//                    Message.warning("No History found on this Customer.", "Billing Details");
+//                }
+//
+//                t.commit();
+//
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//
+//            } finally {
+//                session.close();
+//            }
+//
+//        }
+//    }
+    
+    private void forNic() {
+
+    // 1. Validate NIC input
+    if (jTextField1.getText() == null || jTextField1.getText().trim().isEmpty()) {
+        Message.warning("NIC was empty!", "Empty value");
+        return;
+    }
+
+    String selectedNic = jTextField1.getText().trim();
+
+    Session session = null;
+    Transaction tx = null;
+
+    try {
+        session = sessionFactory.openSession();
+        tx = session.beginTransaction();
+
+        // 2. Find customer by NIC
+        Criteria customerCriteria = session.createCriteria(Customer.class);
+        customerCriteria.add(Restrictions.eq("nic", selectedNic));
+
+        Customer customer = (Customer) customerCriteria.uniqueResult();
+
+        // Prepare table & list
+        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+        model.setRowCount(0);
+        saleList = new ArrayList<>();
+
+        if (customer == null) {
+            Message.warning("No History found on this Customer.", "Billing Details");
+            return;
+        }
+
+        // 3. Find sales for customer
+        Criteria saleCriteria = session.createCriteria(Sale.class);
+        saleCriteria.add(Restrictions.eq("customer", customer));
+
+        List<Sale> sales = saleCriteria.list();
+
+        if (sales == null || sales.isEmpty()) {
+            Message.warning("No History found on this Customer.", "Billing Details");
+            return;
+        }
+
+        // 4. Fill list and table together
+        for (Sale sale : sales) {
+
+            saleList.add(sale); // ⭐ IMPORTANT ⭐
+
+            String nic = customer.getNic() != null ? customer.getNic() : "--";
+            String name = customer.getName() != null ? customer.getName() : "--";
+            String paymentType = sale.isIsCash() ? "Cash" : "Credit";
+
+            model.addRow(new Object[]{
+                sale.getId(),
+                nic,
+                name,
+                sale.getDate(),
+                paymentType
+            });
+        }
+
+        tx.commit();
+
+    } catch (Exception e) {
+        if (tx != null) {
+            tx.rollback();
+        }
+        e.printStackTrace();
+
+    } finally {
+        if (session != null) {
+            session.close();
+        }
+    }
+}
+
 }
