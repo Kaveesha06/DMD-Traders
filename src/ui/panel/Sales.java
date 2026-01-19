@@ -1184,6 +1184,8 @@ public class Sales extends javax.swing.JPanel {
         try {
             int sid = (int) session.save(sale);
             sale.setId(sid);
+            sale.setSubTotal(subTotal);
+            
             for (SaleItem p : productList) {
                 p.setSale(sale);
 //                if(customer != null){
@@ -1206,16 +1208,16 @@ public class Sales extends javax.swing.JPanel {
                 subTotal = "0.00";
             }
             if (dicount.isBlank()) {
-                subTotal = "0.00";
+                dicount = "0.00";
             }
             if (total.isBlank()) {
-                subTotal = "0.00";
+                total = "0.00";
             }
             if (paid.isBlank()) {
-                subTotal = "0.00";
+                paid = "0.00";
             }
             if (balance.isBlank()) {
-                subTotal = "0.00";
+                balance = "0.00";
             }
 
             JRTableModelDataSource dataSourse = new JRTableModelDataSource(jTable1.getModel());
@@ -1231,6 +1233,7 @@ public class Sales extends javax.swing.JPanel {
             String in = "C:\\pos\\bill1.jasper";
             new util.Reporting().printReport(in, parm, dataSourse);
 
+            
             transaction.commit();
             clear();
             jFormattedTextField1.setText("");

@@ -1,15 +1,33 @@
 package ui.popup;
 
+import com.lowagie.text.Document;
+import com.lowagie.text.DocumentException;
+import com.lowagie.text.Paragraph;
+import com.lowagie.text.pdf.PdfPTable;
+import com.lowagie.text.pdf.PdfWriter;
+import net.sf.jasperreports.engine.*;
+import net.sf.jasperreports.view.JasperViewer;
+import net.sf.jasperreports.engine.*;
+import net.sf.jasperreports.view.JasperViewer;
+import com.lowagie.text.Document;
+import com.lowagie.text.DocumentException;
+import com.lowagie.text.Paragraph;
+import com.lowagie.text.pdf.PdfPTable;
+import com.lowagie.text.pdf.PdfWriter;
 import hibernate.Customer;
 import hibernate.Sale;
+import hibernate.SaleItem;
 import java.io.File;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import net.sf.jasperreports.engine.data.JRTableModelDataSource;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -360,54 +378,44 @@ public class BillHistory extends javax.swing.JDialog {
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
-//        int row = jTable1.getSelectedRow();
-//        
-//        if(row != -1){
-//            selectedSale = saleList.get(row);
-//            jTextField3.setText(selectedSale.getCustomer().getName());
-//            jTextField2.setText(String.valueOf(selectedSale.getId()));
-//            jTextField1.setText(selectedSale.getCustomer().getNic());
-//            jDateChooser1.setDate(selectedSale.getDate());
-//            jTextField4.setText(selectedSale.getCustomer().getPhone());
-//            
-//        }else{
-//            System.out.println("row ==-1");
-//        }
 
-        int row = jTable1.getSelectedRow();
+        int viewRow = jTable1.getSelectedRow();
 
-        if (row == -1) {
+        if (viewRow == -1) {
             return;
         }
 
-        if (saleList == null || row >= saleList.size()) {
+// Convert view row to model row (IMPORTANT)
+        int modelRow = jTable1.convertRowIndexToModel(viewRow);
+
+        if (saleList == null || modelRow < 0 || modelRow >= saleList.size()) {
             System.out.println("saleList empty or row out of bounds");
             return;
         }
 
-        selectedSale = saleList.get(row);
+        selectedSale = saleList.get(modelRow);
 
-        jTextField3.setText(selectedSale.getCustomer().getName());
+        Customer customer = selectedSale.getCustomer();
+
         jTextField2.setText(String.valueOf(selectedSale.getId()));
-        jTextField1.setText(selectedSale.getCustomer().getNic());
         jDateChooser1.setDate(selectedSale.getDate());
-        jTextField4.setText(selectedSale.getCustomer().getPhone());
+
+        if (customer != null) {
+            jTextField3.setText(customer.getName() != null ? customer.getName() : "");
+            jTextField1.setText(customer.getNic() != null ? customer.getNic() : "");
+            jTextField4.setText(customer.getPhone() != null ? customer.getPhone() : "");
+        } else {
+            jTextField3.setText("");
+            jTextField1.setText("");
+            jTextField4.setText("");
+        }
+
 
     }//GEN-LAST:event_jTable1MouseClicked
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        if (selectedSale == null) {
-            Message.warning("Please select a bill first!", "No Selection");
-            return;
-        }
+        viewSalePdf();
 
-        try {
-            File pdf = BillPdfGenerator.generateBill(selectedSale);
-            java.awt.Desktop.getDesktop().open(pdf);
-        } catch (Exception e) {
-            e.printStackTrace();
-            Message.warning("Unable to open bill!", "Error");
-        }
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
@@ -462,6 +470,92 @@ public class BillHistory extends javax.swing.JDialog {
     private javax.swing.JTextField jTextField3;
     private javax.swing.JTextField jTextField4;
     // End of variables declaration//GEN-END:variables
+
+    private void viewSalePdf() {
+        // 1️⃣ Check selection
+        if (selectedSale == null) {
+            Message.warning("No Sale Selected!", "Select a row first");
+            return;
+        }
+
+        Session session = null;
+        Transaction tx = null;
+
+        try {
+            // 2️⃣ Open Hibernate session
+            session = sessionFactory.openSession();
+            tx = session.beginTransaction();
+
+            // Reload sale to ensure saleItems are available
+//            Sale sale = session.get(Sale.class, selectedSale.getId());
+            Sale sale = (Sale) session.get(Sale.class, selectedSale.getId());
+            if (sale == null) {
+                Message.warning("Sale not found!", "Error");
+                return;
+            }
+
+            List<SaleItem> items = sale.getSaleItems();
+            if (items == null || items.isEmpty()) {
+                Message.warning("No sale items found!", "Info");
+                return;
+            }
+
+            tx.commit();
+            
+            //catch data
+            String saleId = String.valueOf(sale.getId());
+            String saleDate = new SimpleDateFormat("yyyy-MM-dd").format(sale.getDate());
+            String subTotal = String.valueOf(sale.getSubTotal());
+            String discount = Double.toString(sale.getDiscount());
+            String total = Double.toString(sale.getTotal());
+            String paid = Double.toString(sale.getPaid());
+            String balance = Double.toString(sale.getBalance());
+
+            // 3️⃣ Prepare Jasper DataSource from JTable
+            JRTableModelDataSource dataSource
+                    = new JRTableModelDataSource(jTable1.getModel());
+
+            // 4️⃣ Prepare parameters (MUST match your report)
+            HashMap<String, Object> params = new HashMap<>();
+            params.put("Parameter1", saleId); // Sale ID
+            params.put("Parameter2", saleDate);
+            params.put("Parameter3", subTotal);
+            params.put("Parameter4", discount);
+            params.put("Parameter5", total);
+            params.put("Parameter6", paid);
+            params.put("Parameter7", balance);
+
+            Customer customer = sale.getCustomer();
+            if (customer != null) {
+                params.put("customerName", customer.getName());
+                params.put("customerNic", customer.getNic());
+            }
+
+            // 5️⃣ Load & VIEW Jasper Report
+            String reportPath = "C:\\pos\\bill1.jasper";
+
+            JasperPrint jasperPrint = JasperFillManager.fillReport(
+                    reportPath,
+                    params,
+                    dataSource
+            );
+
+            // 👇 THIS OPENS THE PREVIEW WINDOW
+            JasperViewer.viewReport(jasperPrint, false);
+
+        } catch (Exception e) {
+            if (tx != null) {
+                tx.rollback();
+            }
+            e.printStackTrace();
+            Message.error("Unable to open report!", "Error");
+
+        } finally {
+            if (session != null) {
+                session.close();
+            }
+        }
+    }
 
     private void forDate() {
 
@@ -541,8 +635,6 @@ public class BillHistory extends javax.swing.JDialog {
             }
         }
     }
-    
-    
 
 //    private void forNic() {
 //        if (jTextField1 == null) {
@@ -612,82 +704,81 @@ public class BillHistory extends javax.swing.JDialog {
 //
 //        }
 //    }
-    
     private void forNic() {
 
-    // 1. Validate NIC input
-    if (jTextField1.getText() == null || jTextField1.getText().trim().isEmpty()) {
-        Message.warning("NIC was empty!", "Empty value");
-        return;
-    }
-
-    String selectedNic = jTextField1.getText().trim();
-
-    Session session = null;
-    Transaction tx = null;
-
-    try {
-        session = sessionFactory.openSession();
-        tx = session.beginTransaction();
-
-        // 2. Find customer by NIC
-        Criteria customerCriteria = session.createCriteria(Customer.class);
-        customerCriteria.add(Restrictions.eq("nic", selectedNic));
-
-        Customer customer = (Customer) customerCriteria.uniqueResult();
-
-        // Prepare table & list
-        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
-        model.setRowCount(0);
-        saleList = new ArrayList<>();
-
-        if (customer == null) {
-            Message.warning("No History found on this Customer.", "Billing Details");
+        // 1. Validate NIC input
+        if (jTextField1.getText() == null || jTextField1.getText().trim().isEmpty()) {
+            Message.warning("NIC was empty!", "Empty value");
             return;
         }
 
-        // 3. Find sales for customer
-        Criteria saleCriteria = session.createCriteria(Sale.class);
-        saleCriteria.add(Restrictions.eq("customer", customer));
+        String selectedNic = jTextField1.getText().trim();
 
-        List<Sale> sales = saleCriteria.list();
+        Session session = null;
+        Transaction tx = null;
 
-        if (sales == null || sales.isEmpty()) {
-            Message.warning("No History found on this Customer.", "Billing Details");
-            return;
-        }
+        try {
+            session = sessionFactory.openSession();
+            tx = session.beginTransaction();
 
-        // 4. Fill list and table together
-        for (Sale sale : sales) {
+            // 2. Find customer by NIC
+            Criteria customerCriteria = session.createCriteria(Customer.class);
+            customerCriteria.add(Restrictions.eq("nic", selectedNic));
 
-            saleList.add(sale); // ⭐ IMPORTANT ⭐
+            Customer customer = (Customer) customerCriteria.uniqueResult();
 
-            String nic = customer.getNic() != null ? customer.getNic() : "--";
-            String name = customer.getName() != null ? customer.getName() : "--";
-            String paymentType = sale.isIsCash() ? "Cash" : "Credit";
+            // Prepare table & list
+            DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
+            model.setRowCount(0);
+            saleList = new ArrayList<>();
 
-            model.addRow(new Object[]{
-                sale.getId(),
-                nic,
-                name,
-                sale.getDate(),
-                paymentType
-            });
-        }
+            if (customer == null) {
+                Message.warning("No History found on this Customer.", "Billing Details");
+                return;
+            }
 
-        tx.commit();
+            // 3. Find sales for customer
+            Criteria saleCriteria = session.createCriteria(Sale.class);
+            saleCriteria.add(Restrictions.eq("customer", customer));
 
-    } catch (Exception e) {
-        if (tx != null) {
-            tx.rollback();
-        }
-        e.printStackTrace();
+            List<Sale> sales = saleCriteria.list();
 
-    } finally {
-        if (session != null) {
-            session.close();
+            if (sales == null || sales.isEmpty()) {
+                Message.warning("No History found on this Customer.", "Billing Details");
+                return;
+            }
+
+            // 4. Fill list and table together
+            for (Sale sale : sales) {
+
+                saleList.add(sale); // ⭐ IMPORTANT ⭐
+
+                String nic = customer.getNic() != null ? customer.getNic() : "--";
+                String name = customer.getName() != null ? customer.getName() : "--";
+                String paymentType = sale.isIsCash() ? "Cash" : "Credit";
+
+                model.addRow(new Object[]{
+                    sale.getId(),
+                    nic,
+                    name,
+                    sale.getDate(),
+                    paymentType
+                });
+            }
+
+            tx.commit();
+
+        } catch (Exception e) {
+            if (tx != null) {
+                tx.rollback();
+            }
+            e.printStackTrace();
+
+        } finally {
+            if (session != null) {
+                session.close();
+            }
         }
     }
-}
 
 }

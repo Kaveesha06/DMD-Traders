@@ -32,6 +32,21 @@ public class Sale implements Serializable {
 
     @Column(name = "is_cash")
     private boolean isCash;
+    
+    @Column(name="subTotal")
+    private double subTotal;
+    
+    @Column(name="discount")
+    private double discount;
+    
+    @Column(name="total")
+    private double total;
+    
+    @Column(name="paid")
+    private double paid;
+    
+    @Column(name="balance")
+    private double balance;
 
     @ManyToOne
     @JoinColumn(name = "customer_nic", nullable = true)
@@ -91,6 +106,50 @@ public class Sale implements Serializable {
 
     public void setCustomer(Customer customer) {
         this.customer = customer;
+    }
+
+    public double getSubTotal() {
+        return subTotal;
+    }
+
+    public void setSubTotal(double subTotal) {
+        this.subTotal = subTotal;
+    }
+
+    public double getDiscount() {
+        return discount;
+    }
+
+    public void setDiscount(double discount) {
+        this.discount = discount;
+    }
+
+    public double getTotal() {
+        return total;
+    }
+
+    public void setTotal(double total) {
+        this.total = total;
+    }
+
+    public double getPaid() {
+        return paid;
+    }
+
+    public void setPaid(double paid) {
+        this.paid = paid;
+    }
+
+    public double getBalance() {
+        return balance;
+    }
+
+    public void setBalance(double balance) {
+        this.balance = balance;
+    }
+
+    public void setPaid(String paid) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
 }
