@@ -758,7 +758,7 @@ public class Sales extends javax.swing.JPanel {
     private void jFormattedTextField4KeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jFormattedTextField4KeyReleased
         paid();
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
-           jButton4.grabFocus();
+            jButton4.grabFocus();
         }
     }//GEN-LAST:event_jFormattedTextField4KeyReleased
 
@@ -887,8 +887,8 @@ public class Sales extends javax.swing.JPanel {
                         .add(
                                 Restrictions.or(
                                         Restrictions.gt("stock.wholeQty", 0)
-//                                        ,
-//                                        Restrictions.gt("stock.looseQty", 0.0)
+                                //                                        ,
+                                //                                        Restrictions.gt("stock.looseQty", 0.0)
                                 )
                         );
 
@@ -915,7 +915,7 @@ public class Sales extends javax.swing.JPanel {
                 } else {
                     Message.warning("No Available Stock", "Stock Info");
                     logger.error("No Available Stock!");
-                    clear() ;
+                    clear();
                 }
             } else {
                 Message.error("Product Not Found", "Validation Error");
@@ -978,7 +978,7 @@ public class Sales extends javax.swing.JPanel {
     }
 
     private void addToList() {
-        
+
         if (current != null) {
             String qtyText = this.jTextField8.getText().trim();
             String kgText = this.jTextField6.getText().trim();
@@ -1006,7 +1006,7 @@ public class Sales extends javax.swing.JPanel {
                                 double newQty = current.getLooseQty() - totalKg;
                                 current.setLooseQty(newQty);
                                 productList.add(new SaleItem(current, null, totalKg, current.getPricePerUnit(), false, 0));
-                             } else {
+                            } else {
                                 if (current.getWholeQty() >= 1) {
                                     double packSize = (current.getPackSize());
 
@@ -1122,23 +1122,23 @@ public class Sales extends javax.swing.JPanel {
             }
 
         } else {
-            jFormattedTextField3.setText(df.format(subTotal));   
+            jFormattedTextField3.setText(df.format(subTotal));
         }
-        
+
     }
-    
+
     private void paid() {
         try {
             if (!jFormattedTextField4.getText().isEmpty()) {
                 Double paidAmount = Double.parseDouble(jFormattedTextField4.getText());
 
                 Double balanceA = Grndtotal - paidAmount;
-                DecimalFormat rsdf = new DecimalFormat("'Rs.' #,##0.00'/-'");
-                
+                DecimalFormat rsdf = new DecimalFormat("'Rs:' #,##0.00'/-'");
+
                 if (balanceA <= 0) {
 //                    balance.setText(String.format("%.2f",balanceA));
                     jFormattedTextField5.setText(rsdf.format(balanceA));
-                    
+
                     jButton4.setEnabled(true);
                     return;
                 }
@@ -1152,19 +1152,46 @@ public class Sales extends javax.swing.JPanel {
             jFormattedTextField5.setText(String.valueOf("NAN"));
         }
     }
-    
-    
+
     private Customer customer;
 
-     private void save() {
+    private void save() {
+        String subTotals = String.valueOf(this.jFormattedTextField1.getText());
+        String dicounts = String.valueOf(this.jFormattedTextField2.getText());
+        String totals = String.valueOf(this.jFormattedTextField3.getText());
+        String paids = String.valueOf(this.jFormattedTextField4.getText());
+        String balances = String.valueOf(this.jFormattedTextField5.getText());
+        
+        if (subTotals.isBlank()) {
+                subTotals = "0.00";
+            }
+            if (dicounts.isBlank()) {
+                dicounts = "0.00";
+            }
+            if (totals.isBlank()) {
+                totals= "0.00";
+            }
+            if (paids.isBlank()) {
+                paids = "0.00";
+            }
+            if (balances.isBlank()) {
+                balances = "Rs: --  /-";
+            }
+
         Session session = sessionFactory.openSession();
-        Sale sale = new Sale(0, new Date(), true, null);
+        Sale sale = new Sale(0, new Date(), true, null, 0.00, 0.00, 0.00, 0.00, "Rs. 0.00/-");
         if (jCheckBox2.isSelected()) {
             try {
                 Customer customer = this.customer;
                 if (customer != null) {
                     sale.setCustomer(customer);
                     sale.setIsCash(false);
+                    sale.setSubTotal(Double.parseDouble(subTotals));
+                    sale.setDiscount(Double.parseDouble(dicounts));
+                    sale.setTotal(Double.parseDouble(totals));
+                    sale.setPaid(Double.parseDouble(paids));
+                    sale.setBalance(balances);
+                    
                     customer.setCredits(customer.getCredits() + Grndtotal); // need to update to total 
                     session.update(customer);
                 } else {
@@ -1173,19 +1200,21 @@ public class Sales extends javax.swing.JPanel {
                 }
             } catch (Exception e) {
                 Message.error("Customer Not Found", "Error");
-                
+
             }
         }
-        
-        
 
         Transaction transaction = session.beginTransaction();
 
         try {
             int sid = (int) session.save(sale);
             sale.setId(sid);
-            sale.setSubTotal(subTotal);
-            
+            sale.setSubTotal(Double.parseDouble(subTotals));
+            sale.setDiscount(Double.parseDouble(dicounts));
+            sale.setTotal(Double.parseDouble(totals));
+            sale.setPaid(Double.parseDouble(paids));
+            sale.setBalance(balances);
+
             for (SaleItem p : productList) {
                 p.setSale(sale);
 //                if(customer != null){
@@ -1197,43 +1226,21 @@ public class Sales extends javax.swing.JPanel {
             if (customer != null) {
                 sale.setCustomer(customer);
             }
-
-            String subTotal = String.valueOf(this.jFormattedTextField1.getText());
-            String dicount = String.valueOf(this.jFormattedTextField2.getText());
-            String total = String.valueOf(this.jFormattedTextField3.getText());
-            String paid = String.valueOf(this.jFormattedTextField4.getText());
-            String balance = String.valueOf(this.jFormattedTextField5.getText());
-
-            if (subTotal.isBlank()) {
-                subTotal = "0.00";
-            }
-            if (dicount.isBlank()) {
-                dicount = "0.00";
-            }
-            if (total.isBlank()) {
-                total = "0.00";
-            }
-            if (paid.isBlank()) {
-                paid = "0.00";
-            }
-            if (balance.isBlank()) {
-                balance = "0.00";
-            }
+            
 
             JRTableModelDataSource dataSourse = new JRTableModelDataSource(jTable1.getModel());
             HashMap<String, Object> parm = new HashMap<>();
             parm.put("Parameter1", String.valueOf(sid));
             parm.put("Parameter2", new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(new Date()));
-            parm.put("Parameter3", subTotal);
-            parm.put("Parameter4", dicount);
-            parm.put("Parameter5", total);
-            parm.put("Parameter6", paid);
-            parm.put("Parameter7", balance);
+            parm.put("Parameter3", subTotals);
+            parm.put("Parameter4", dicounts);
+            parm.put("Parameter5", totals);
+            parm.put("Parameter6", paids);
+            parm.put("Parameter7", balances);
 
             String in = "C:\\pos\\bill1.jasper";
             new util.Reporting().printReport(in, parm, dataSourse);
 
-            
             transaction.commit();
             clear();
             jFormattedTextField1.setText("");
@@ -1247,8 +1254,8 @@ public class Sales extends javax.swing.JPanel {
             Message.error("Payment Error Plase Try Again", "Payments Error");
         }
     }
-     
-     private void creditSell() {
+
+    private void creditSell() {
         if (jCheckBox2.isSelected()) {
             jButton4.setEnabled(true);
         } else {
@@ -1268,7 +1275,6 @@ public class Sales extends javax.swing.JPanel {
         } catch (Exception e) {
         }
     }
-    
 
     private void clear() {
         jTextField1.setText("");
@@ -1284,10 +1290,10 @@ public class Sales extends javax.swing.JPanel {
         jTextField11.setText("");
         jCheckBox1.setSelected(false);
         jCheckBox2.setSelected(false);
-        
+
         current = null;
         jButton4.setEnabled(false);
-        
+
         loadTable();
     }
 
