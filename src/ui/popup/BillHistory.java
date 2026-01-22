@@ -509,7 +509,7 @@ public class BillHistory extends javax.swing.JDialog {
             String discount = Double.toString(sale.getDiscount());
             String total = Double.toString(sale.getTotal());
             String paid = Double.toString(sale.getPaid());
-            String balance = Double.toString(sale.getBalance());
+            String balance = sale.getBalance();
 
             // 3️⃣ Prepare Jasper DataSource from JTable
             JRTableModelDataSource dataSource
