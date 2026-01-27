@@ -27,6 +27,7 @@ import java.util.List;
 import java.util.Map;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
 import net.sf.jasperreports.engine.data.JRTableModelDataSource;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
@@ -419,7 +420,7 @@ public class BillHistory extends javax.swing.JDialog {
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
-
+        printSale();
     }//GEN-LAST:event_jButton5ActionPerformed
 
     /**
@@ -471,23 +472,205 @@ public class BillHistory extends javax.swing.JDialog {
     private javax.swing.JTextField jTextField4;
     // End of variables declaration//GEN-END:variables
 
-    private void viewSalePdf() {
-        // 1️⃣ Check selection
+    private void printSale() {
+
         if (selectedSale == null) {
             Message.warning("No Sale Selected!", "Select a row first");
             return;
         }
 
         Session session = null;
-        Transaction tx = null;
 
         try {
-            // 2️⃣ Open Hibernate session
             session = sessionFactory.openSession();
-            tx = session.beginTransaction();
 
-            // Reload sale to ensure saleItems are available
-//            Sale sale = session.get(Sale.class, selectedSale.getId());
+            // 1️⃣ Reload Sale
+            Sale sale = (Sale) session.get(Sale.class, selectedSale.getId());
+            if (sale == null) {
+                Message.warning("Sale not found!", "Error");
+                return;
+            }
+
+            List<SaleItem> items = sale.getSaleItems();
+            if (items == null || items.isEmpty()) {
+                Message.warning("No sale items!", "Info");
+                return;
+            }
+
+            // 2️⃣ Create TableModel for Jasper
+            DefaultTableModel model = new DefaultTableModel();
+            model.addColumn("Product");
+            model.addColumn("Qty");
+            model.addColumn("Unit Price");
+            model.addColumn("Total");
+
+            for (SaleItem item : items) {
+
+                String productName = item.getStock()
+                        .getGrnItem()
+                        .getProduct()
+                        .getName();
+
+                double qty = item.getQuantity();
+                double price = item.getUnitPrice();
+
+                model.addRow(new Object[]{
+                    productName,
+                    String.valueOf(qty),
+                    String.valueOf(price),
+                    String.valueOf(qty * price)
+                });
+            }
+
+            JRTableModelDataSource dataSource
+                    = new JRTableModelDataSource(model);
+
+            // 3️⃣ Parameters
+            HashMap<String, Object> params = new HashMap<>();
+            params.put("Parameter1", String.valueOf(sale.getId()));
+            params.put("Parameter2",
+                    new SimpleDateFormat("yyyy-MM-dd").format(sale.getDate()));
+            params.put("Parameter3", String.valueOf(sale.getSubTotal()));
+            params.put("Parameter4", String.valueOf(sale.getDiscount()));
+            params.put("Parameter5", String.valueOf(sale.getTotal()));
+            params.put("Parameter6", String.valueOf(sale.getPaid()));
+            params.put("Parameter7", String.valueOf(sale.getBalance()));
+
+            // 4️⃣ Fill report
+            String reportPath = "C:\\pos\\bill1.jasper";
+
+            JasperPrint print = JasperFillManager.fillReport(
+                    reportPath,
+                    params,
+                    dataSource
+            );
+
+            // 5️⃣ PRINT (no viewer)
+            JasperPrintManager.printReport(print, true); // true = show print dialog
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            Message.error("Printing failed!", "Error");
+
+        } finally {
+            if (session != null) {
+                session.close();
+            }
+        }
+    }
+    
+//    private void viewSalePdf() {
+//
+//    // 1️⃣ Check if a sale is selected
+//    if (selectedSale == null) {
+//        Message.warning("No Sale Selected!", "Select a row first");
+//        return;
+//    }
+//
+//    Session session = null;
+//
+//    try {
+//        // 2️⃣ Open Hibernate session
+//        session = sessionFactory.openSession();
+//
+//        // 3️⃣ Reload the sale to ensure SaleItems are loaded
+//        Sale sale = (Sale) session.get(Sale.class, selectedSale.getId());
+//        if (sale == null) {
+//            Message.warning("Sale not found!", "Error");
+//            return;
+//        }
+//
+//        List<SaleItem> items = sale.getSaleItems();
+//        if (items == null || items.isEmpty()) {
+//            Message.warning("No sale items found!", "Info");
+//            return;
+//        }
+//
+//        // 4️⃣ Build a TableModel for Jasper (all values as Strings)
+//        DefaultTableModel model = new DefaultTableModel();
+//        model.addColumn("Product");
+//        model.addColumn("Qty");
+//        model.addColumn("Unit Price");
+//        model.addColumn("Total");
+//
+//        for (SaleItem item : items) {
+//            String productName = "";
+//            if (item.getStock() != null
+//                    && item.getStock().getGrnItem() != null
+//                    && item.getStock().getGrnItem().getProduct() != null) {
+//                productName = item.getStock()
+//                                  .getGrnItem()
+//                                  .getProduct()
+//                                  .getName();
+//            }
+//
+//            double qty = item.getQuantity();
+//            double unitPrice = item.getUnitPrice();
+//            double lineTotal = qty * unitPrice;
+//
+//            model.addRow(new Object[]{
+//                    productName,
+//                    String.valueOf(qty),
+//                    String.valueOf(unitPrice),
+//                    String.valueOf(lineTotal)
+//            });
+//        }
+//
+//        // 5️⃣ Prepare Jasper DataSource
+//        JRTableModelDataSource dataSource = new JRTableModelDataSource(model);
+//
+//        // 6️⃣ Prepare report parameters
+//        HashMap<String, Object> params = new HashMap<>();
+//        params.put("Parameter1", String.valueOf(sale.getId()));
+//        params.put("Parameter2", new SimpleDateFormat("yyyy-MM-dd").format(sale.getDate()));
+//        params.put("Parameter3", String.valueOf(sale.getSubTotal()));
+//        params.put("Parameter4", String.valueOf(sale.getDiscount()));
+//        params.put("Parameter5", String.valueOf(sale.getTotal()));
+//        params.put("Parameter6", String.valueOf(sale.getPaid()));
+//        params.put("Parameter7", String.valueOf(sale.getBalance()));
+//
+//        Customer customer = sale.getCustomer();
+//        if (customer != null) {
+//            params.put("customerName", customer.getName());
+//            params.put("customerNic", customer.getNic());
+//        }
+//
+//        // 7️⃣ Fill Jasper report
+//        String reportPath = "C:\\pos\\bill1.jasper";
+//        JasperPrint jasperPrint = JasperFillManager.fillReport(reportPath, params, dataSource);
+//
+//        // 8️⃣ Export to PDF
+//        String pdfPath = "C:\\pos\\Sale_" + sale.getId() + ".pdf";
+//        JasperExportManager.exportReportToPdfFile(jasperPrint, pdfPath);
+//
+//        // 9️⃣ Open PDF in default viewer
+//        java.awt.Desktop.getDesktop().open(new java.io.File(pdfPath));
+//
+//    } catch (Exception e) {
+//        e.printStackTrace();
+//        Message.error("Cannot open PDF", "Error");
+//    } finally {
+//        if (session != null) {
+//            session.close();
+//        }
+//    }
+//}
+//    
+    
+
+    private void viewSalePdf() {
+
+        if (selectedSale == null) {
+            Message.warning("No Sale Selected!", "Select a row first");
+            return;
+        }
+
+        Session session = null;
+
+        try {
+            session = sessionFactory.openSession();
+
+            // 1️⃣ Reload Sale from DB
             Sale sale = (Sale) session.get(Sale.class, selectedSale.getId());
             if (sale == null) {
                 Message.warning("Sale not found!", "Error");
@@ -500,53 +683,70 @@ public class BillHistory extends javax.swing.JDialog {
                 return;
             }
 
-            tx.commit();
-            
-            //catch data
-            String saleId = String.valueOf(sale.getId());
-            String saleDate = new SimpleDateFormat("yyyy-MM-dd").format(sale.getDate());
-            String subTotal = String.valueOf(sale.getSubTotal());
-            String discount = Double.toString(sale.getDiscount());
-            String total = Double.toString(sale.getTotal());
-            String paid = Double.toString(sale.getPaid());
-            String balance = sale.getBalance();
+            // 2️⃣ Build TEMP TableModel from SaleItems (🔥 IMPORTANT)
+            DefaultTableModel model = new DefaultTableModel();
+            model.addColumn("Product");
+            model.addColumn("Qty");
+            model.addColumn("Unit Price");
+            model.addColumn("Total");
 
-            // 3️⃣ Prepare Jasper DataSource from JTable
-            JRTableModelDataSource dataSource
-                    = new JRTableModelDataSource(jTable1.getModel());
+            for (SaleItem item : items) {
 
-            // 4️⃣ Prepare parameters (MUST match your report)
-            HashMap<String, Object> params = new HashMap<>();
-            params.put("Parameter1", saleId); // Sale ID
-            params.put("Parameter2", saleDate);
-            params.put("Parameter3", subTotal);
-            params.put("Parameter4", discount);
-            params.put("Parameter5", total);
-            params.put("Parameter6", paid);
-            params.put("Parameter7", balance);
+                String productName = "";
+                if (item.getStock() != null
+                        && item.getStock().getGrnItem() != null
+                        && item.getStock().getGrnItem().getProduct() != null) {
+                    productName = item.getStock()
+                            .getGrnItem()
+                            .getProduct()
+                            .getName();
+                }
 
-            Customer customer = sale.getCustomer();
-            if (customer != null) {
-                params.put("customerName", customer.getName());
-                params.put("customerNic", customer.getNic());
+                double qty = item.getQuantity();
+                double unitPrice = item.getUnitPrice();
+                double lineTotal = qty * unitPrice;
+
+                model.addRow(new Object[]{
+                    productName,
+                    String.valueOf(qty),
+                    String.valueOf(unitPrice),
+                    String.valueOf(lineTotal)
+                });
             }
 
-            // 5️⃣ Load & VIEW Jasper Report
+            // 3️⃣ Jasper DataSource (STRING SAFE)
+            JRTableModelDataSource dataSource
+                    = new JRTableModelDataSource(model);
+
+            // 4️⃣ Report parameters
+            HashMap<String, Object> params = new HashMap<>();
+            params.put("Parameter1", String.valueOf(sale.getId()));
+            params.put("Parameter2",
+                    new SimpleDateFormat("yyyy-MM-dd").format(sale.getDate()));
+            params.put("Parameter3", String.valueOf(sale.getSubTotal()));
+            params.put("Parameter4", String.valueOf(sale.getDiscount()));
+            params.put("Parameter5", String.valueOf(sale.getTotal()));
+            params.put("Parameter6", String.valueOf(sale.getPaid()));
+            params.put("Parameter7", String.valueOf(sale.getBalance()));
+
+            Customer c = sale.getCustomer();
+            if (c != null) {
+                params.put("customerName", c.getName());
+                params.put("customerNic", c.getNic());
+            }
+
+            // 5️⃣ Load & VIEW report
             String reportPath = "C:\\pos\\bill1.jasper";
 
-            JasperPrint jasperPrint = JasperFillManager.fillReport(
+            JasperPrint print = JasperFillManager.fillReport(
                     reportPath,
                     params,
                     dataSource
             );
 
-            // 👇 THIS OPENS THE PREVIEW WINDOW
-            JasperViewer.viewReport(jasperPrint, false);
+            JasperViewer.viewReport(print, false);
 
         } catch (Exception e) {
-            if (tx != null) {
-                tx.rollback();
-            }
             e.printStackTrace();
             Message.error("Unable to open report!", "Error");
 
@@ -556,7 +756,7 @@ public class BillHistory extends javax.swing.JDialog {
             }
         }
     }
-
+    
     private void forDate() {
 
         // 1. Validate date
