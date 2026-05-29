@@ -67,10 +67,11 @@ This project follows the **Model–View–Controller (MVC)** architecture:
 <img width="1919" height="1018" alt="Screenshot 2026-05-29 225627" src="https://github.com/user-attachments/assets/8f46e8a4-a921-4d0a-816a-bc8c95acc0a4" />
 
 ### Sales 👇🏻
-<img width="1858" height="937" alt="Screenshot 2026-05-29 225042" src="https://github.com/user-attachments/assets/bbde61c9-cba5-4c76-bec7-b9029bd1b02b" />
+<img width="1919" height="1019" alt="Screenshot 2026-05-29 225330" src="https://github.com/user-attachments/assets/f4022154-78b2-432d-8dc2-7c45e173ad9b" />
 
 ### Reports 👇🏻
-<img width="1919" height="1019" alt="Screenshot 2026-05-29 225330" src="https://github.com/user-attachments/assets/f4022154-78b2-432d-8dc2-7c45e173ad9b" />
+<img width="1858" height="937" alt="Screenshot 2026-05-29 225042" src="https://github.com/user-attachments/assets/bbde61c9-cba5-4c76-bec7-b9029bd1b02b" />
+
 
 
 
